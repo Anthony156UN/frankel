@@ -1,4 +1,6 @@
-# Batalla Cósmica — V0.4 (beta multijugador)
+# Batalla Cósmica — V0.5 (beta multijugador)
+
+**Nuevo tablero sin cuadros:** espacio continuo con estrellas, planetas flotantes y mano de 4 cartas en abanico. Los bordes propios de las cartas y el brillo dorado al elegir meteorito siguen presentes.
 
 Juego de cartas espacial original, en fase de pruebas. **Nombre provisional**.
 
