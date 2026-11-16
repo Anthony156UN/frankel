@@ -401,9 +401,10 @@ function resetSelection(){chosenIndex=null;targetMode=null;discardMode=false;dis
 function clearPeer(){if(botTimer){clearTimeout(botTimer);botTimer=null;}const oldConn=connection,oldPeer=peer;connection=null;peer=null;
  try{oldConn?.close()}catch{}try{oldPeer?.destroy()}catch{} }
 function goMenu(){closeAllDialogs();clearPeer();activeMode='menu';isHost=false;roomCode='';gameState=null;view=null;confirmed=false;remoteDisconnected=false;busy=false;resetSelection();
- display('welcome',true);display('waiting',false);display('gameScreen',false);$('welcomeError').textContent='';$('joinCode').value='';history.replaceState(null,'',location.pathname+location.hash);}
+ display('welcome',true);display('waiting',false);display('gameScreen',false);$('welcomeError').textContent='';$('joinCode').value='';safeUrl();}
 function randomRoom(){const alphabet='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';const bytes=new Uint8Array(9);crypto.getRandomValues(bytes);return Array.from(bytes,x=>alphabet[x%alphabet.length]).join('');}
 function inviteUrl(){return new URL(location.pathname+'?s='+roomCode,location.href).href;}
+function safeUrl(suffix=''){try{history.replaceState(null,'',location.pathname+suffix+location.hash)}catch{ /* páginas locales y entornos de prueba no permiten cambiar la URL */ }}
 function showWait(title,status){display('welcome',false);display('waiting',true);display('gameScreen',false);$('waitTitle').textContent=title;$('waitStatus').textContent=status;
  $('hostName').textContent=isHost?nick():'Anfitrión';$('guestName').textContent=guestName||'Esperando…';$('roomToken').textContent=roomCode;
  display('startGameBtn',false);display('retryJoinBtn',false);display('copyInviteBtn',isHost);
@@ -424,7 +425,7 @@ function peerError(err){const typ=err?.type||'connection';const messages={
 }
 function ensurePeer(){if(typeof Peer!=='function'){showError('No se cargó PeerJS. Para jugar online necesitas internet y permitir la biblioteca de conexión.');return false;}return true;}
 function createRoom(){saveName();if(!ensurePeer())return;clearPeer();activeMode='online';isHost=true;remoteDisconnected=false;confirmed=false;roomCode=randomRoom();guestName='Esperando…';
- showWait('Sala creada','Conectando al servicio de salas…');history.replaceState(null,'',location.pathname+'?s='+roomCode);
+ showWait('Sala creada','Conectando al servicio de salas…');safeUrl('?s='+roomCode);
  peer=new Peer(ROOM_PREFIX+roomCode.toLowerCase(),{debug:0});
  peer.on('open',()=>{waitStatus('Sala lista. Envía el enlace a tu amigo.');});
  peer.on('connection',incoming=>{
@@ -437,7 +438,7 @@ function createRoom(){saveName();if(!ensurePeer())return;clearPeer();activeMode=
 function joinRoom(raw){const code=String(raw||'').trim().toUpperCase().replace(/\s/g,'');
  if(!validRoom(code)){showError('El código debe tener 9 letras o números.');return;}
  saveName();if(!ensurePeer())return;clearPeer();activeMode='online';isHost=false;roomCode=code;confirmed=false;remoteDisconnected=false;guestName=nick();showWait('Entrando a la sala','Conectando con el anfitrión…');
- $('hostName').textContent='Anfitrión';$('guestName').textContent=nick();history.replaceState(null,'',location.pathname+'?s='+roomCode);
+ $('hostName').textContent='Anfitrión';$('guestName').textContent=nick();safeUrl('?s='+roomCode);
  peer=new Peer(undefined,{debug:0});
  peer.on('open',()=>{
   connection=peer.connect(ROOM_PREFIX+roomCode.toLowerCase(),{serialization:'json',reliable:true});
@@ -474,7 +475,7 @@ function wireConnection(conn,hostSide){let identified=false;
   }else{
    if(data.type==='accepted'){confirmed=true;guestName=data.guestName;$('hostName').textContent=data.hostName;updateWaitNames();$('hostName').textContent=data.hostName;
     waitStatus(data.started?'Reuniéndote con la partida…':'¡Conectado! Espera a que el anfitrión comience.');return;}
-   if(data.type==='snapshot'){confirmed=true;remoteDisconnected=false;view=data.view;busy=false;resetSelection();showGame();render();processLastAction();return;}
+   if(data.type==='snapshot'){confirmed=true;remoteDisconnected=false;view=data.view;busy=false;resetSelection();if(!view.finished)closeDialog('endDialog');showGame();render();processLastAction();return;}
    if(data.type==='rejected'){busy=false;message(data.message||'Acción rechazada');toast(data.message||'Acción no válida');render();return;}
    if(data.type==='notice'){waitStatus(data.message);return;}
   }
