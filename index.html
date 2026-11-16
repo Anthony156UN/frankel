@@ -1,497 +1,438 @@
-<!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<!doctype html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Frankel | Diseño y Creación de Páginas Web que Venden</title>
-  <meta name="description" content="En Frankel creamos páginas web modernas, rápidas y optimizadas para convertir visitantes en clientes. Landing pages, sitios corporativos y tiendas online." />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              400: '#818cf8',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
-              900: '#1e1b4b',
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#030714" />
+  <meta name="description" content="Prototipo jugable de cartas espaciales 1 contra 1, con meteoritos, planetas y estrellas fugaces." />
+  <title>Batalla Cósmica · Prototipo 1 vs 1</title>
   <style>
-    body {
-      background-color: #070913;
-      color: #f8fafc;
-    }
-    .glass {
-      background: rgba(15, 23, 42, 0.7);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .hero-glow {
-      background: radial-gradient(circle at 50% 20%, rgba(99, 102, 241, 0.28) 0%, rgba(16, 185, 129, 0.1) 35%, rgba(7, 9, 19, 0) 70%);
-    }
-    .card-hover {
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .card-hover:hover {
-      transform: translateY(-6px);
-      border-color: rgba(99, 102, 241, 0.5);
-      box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.25);
-    }
-  </style>
+:root{
+  color-scheme:dark;--bg:#030712;--ink:#f6f7fb;--muted:#96a9c7;--gold:#f9bf5c;--gold-soft:#ffe4ae;
+  --outline:rgba(244,194,113,.4);--line:rgba(131,171,230,.22);--panel:#0a1329e8;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{min-height:100%;background:var(--bg);scroll-behavior:smooth}
+body{min-height:100vh;margin:0;color:var(--ink);overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:2px solid #fff;outline-offset:4px}
+button:disabled{cursor:not-allowed;opacity:.49}
+.hidden{display:none!important}
+.universe,.universe>div{position:fixed;inset:0;pointer-events:none}
+.universe{z-index:-1;overflow:hidden;background:radial-gradient(ellipse at 50% 44%,#0c1832 0%,#060b1c 45%,#01040d 85%)}
+.stars{opacity:.75;background-image:radial-gradient(1.3px 1.3px at 12% 16%,#fff 98%,transparent),radial-gradient(1.7px 1.7px at 84% 21%,#79baff 98%,transparent),radial-gradient(1px 1px at 58% 72%,#fff 98%,transparent),radial-gradient(1.2px 1.2px at 37% 47%,#e7d5ff 98%,transparent),radial-gradient(2px 2px at 68% 37%,#b0e7ff 98%,transparent),radial-gradient(.9px .9px at 91% 85%,#fff 98%,transparent);background-size:261px 199px;animation:drift 110s linear infinite}
+.stars-near{background-size:391px 313px;opacity:.35;animation-duration:160s;transform:rotate(-14deg)}
+.nebula-a{background:radial-gradient(ellipse at 15% 65%,#1b357a36,transparent 50%),radial-gradient(ellipse at 86% 30%,#71348a29,transparent 38%)}
+.nebula-b{background:radial-gradient(ellipse at 50% 50%,#c47c3820,transparent 37%)}
+@keyframes drift{to{background-position:261px 199px}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 11px #ffb44a82,0 0 22px #e17a3160}50%{box-shadow:0 0 20px #ffdd8fd9,0 0 34px #e19b4d85}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes flash{0%,100%{opacity:.7}50%{opacity:1}}
+.shell{width:min(100%,790px);padding:12px 14px max(15px,env(safe-area-inset-bottom));margin:0 auto;display:flex;flex-direction:column;gap:10px;min-height:100dvh}
+.top-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:46px}
+.game-id{display:flex;align-items:center;gap:10px;min-width:0}.game-id-mark{height:40px;width:40px;display:grid;place-items:center;border:1px solid #af864a;border-radius:12px;font-size:1.65rem;color:var(--gold);box-shadow:inset 0 0 12px #f9b63c2c,0 0 20px #f6b8501e;background:#141e31}
+.game-type{display:block;color:#9ab1cf;font-size:.6rem;letter-spacing:.18em;font-weight:800;white-space:nowrap}.game-id h1{font-size:1rem;line-height:1.2;letter-spacing:.05em;margin:1px 0 0;white-space:nowrap}.game-id em{color:var(--gold);font-style:normal}
+.top-actions{display:flex;align-items:center;gap:6px}.mode-pill{padding:7px 10px;border:1px solid #bd843f70;border-radius:100px;color:#ffe1a5;font-size:.65rem;font-weight:900;white-space:nowrap;background:#18152596}.icon-button{border-radius:50%;width:36px;height:36px;background:#13192dd9;border:1px solid #dbaa618a;box-shadow:inset 0 0 8px #f0a53c19;font-size:1.2rem;font-weight:750;display:grid;place-items:center}.icon-button:hover{border-color:var(--gold-soft);background:#332015}
+.play-field{position:relative;display:flex;flex-direction:column;gap:6px;border-radius:22px;border:1px solid #263554b8;padding:10px 10px 12px;background:linear-gradient(170deg,#081127ab,#0c1124bb 48%,#0a1127ad);box-shadow:inset 0 0 40px #0a2e5035,0 14px 50px #0004;overflow:hidden}
+.play-field::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.28;background-image:radial-gradient(1px 1px at 10% 18%,#fff 99%,transparent),radial-gradient(1px 1px at 71% 29%,#fff 99%,transparent),radial-gradient(1.2px 1.2px at 61% 70%,#fff 99%,transparent);background-size:181px 146px}
+.play-field>*{position:relative}
+.combatant{display:flex;flex-direction:column;gap:7px}
+.nameplate{display:flex;align-items:center;gap:9px;padding:5px 8px;border-radius:11px;background:linear-gradient(90deg,#151b31e3,#0a1428a1);border:1px solid #ae84576d;box-shadow:inset 0 0 13px #d69d3620}
+.rival-nameplate{margin:0 auto;width:min(100%,370px)}
+.my-nameplate{background:linear-gradient(90deg,#14243ade,#0a1428d8)}
+.portrait{display:grid;place-items:center;flex:none;width:35px;height:35px;border-radius:10px;border:1px solid #ffc86e;background:radial-gradient(circle at 35% 30%,#51452e,#131e35 75%);color:var(--gold-soft);font-size:1.3rem;box-shadow:0 0 8px #f0ad4840}
+.my-nameplate .portrait{color:#83d8ff;border-color:#66badd;background:radial-gradient(circle at 40% 30%,#1e6175,#13213c 75%)}
+.name-meta{display:flex;flex:1;flex-direction:column;gap:1px;min-width:0}.name-meta strong{font-size:.78rem;letter-spacing:.07em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.name-meta span{color:var(--muted);font-size:.61rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.planet-score{text-align:right;display:flex;flex-direction:column;white-space:nowrap}.planet-score b{font-size:1.15rem;color:var(--gold-soft);line-height:1.1}.planet-score small{font-size:.52rem;color:var(--muted)}
+.opponent-hand{height:52px;display:flex;justify-content:center;align-items:center;padding:1px 0 3px}
+.enemy-mini-card{height:47px;width:34px;margin:0 -2px;border:2px solid #e6b76f;background:radial-gradient(ellipse at center,#2a3959 0%,#0a1022 74%);border-radius:7px;box-shadow:0 2px 0 #080b16,0 0 9px #ffc36325;position:relative;transform:rotate(var(--r));animation:floaty 5s ease-in-out infinite}
+.enemy-mini-card:before{content:"";position:absolute;inset:8px 5px;border:1px solid #cc9a5e8c;border-radius:50%;transform:rotate(26deg)}
+.enemy-mini-card:after{content:"✦";position:absolute;inset:0;display:grid;place-items:center;color:#ffce80;font-size:1rem}
+.planet-lane{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.orbit-slot{min-width:0;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:11px;padding:5px 3px;border:1px solid rgba(115,160,215,.34);background:linear-gradient(165deg,#12203a96,#080f20b0);min-height:77px;box-shadow:inset 0 0 19px #142c533d;overflow:hidden}
+.orbit-slot:disabled{opacity:1;cursor:default}.orbit-slot.empty{border-style:dashed;opacity:.68}.orbit-slot.empty:disabled{opacity:.68}.orbit-slot.occupied{border-color:color-mix(in srgb,var(--planet-color) 45%,#214264);box-shadow:inset 0 0 15px color-mix(in srgb,var(--planet-color) 12%,transparent)}
+.orbit-slot.target{cursor:pointer!important;opacity:1!important;border:2px solid #ffd37a;background:#27212ddc;animation:pulse 1.7s ease-in-out infinite}
+.planet-art{height:47px;width:100%;display:flex;align-items:center;justify-content:center;position:relative}.planet-art svg{height:100%;max-width:78px;width:100%;filter:drop-shadow(0 0 5px color-mix(in srgb,var(--planet-color) 35%,transparent))}.slot-empty-icon{font-size:2.1rem;line-height:1;color:#42658a;opacity:.65}
+.slot-name{font-size:.57rem;color:#d3e0f6;line-height:1.1;font-weight:750;text-align:center}.slot-markers{position:absolute;top:3px;right:3px;font-size:.7rem;line-height:1;display:flex;gap:1px;z-index:1}.slot-damage{position:absolute;left:22%;right:22%;top:28%;height:2px;background:#ff7a4d;transform:rotate(-40deg);box-shadow:0 0 6px #ff6b32}
+.cosmic-circle{isolation:isolate;position:relative;width:min(100%,490px);height:clamp(220px,62vw,340px);margin:5px auto 0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:17px 14px 12px}
+.cosmic-halo{position:absolute;inset:4px;z-index:-1;border-radius:50%;background:radial-gradient(ellipse at center,#713c1c19 0%,#261d1752 54%,transparent 77%);box-shadow:inset 0 0 60px #e2a14f17}
+.orbit-ring{position:absolute;pointer-events:none;z-index:-1;border:2px solid #feb74ce0;border-radius:50%;inset:5px 9px;box-shadow:0 0 9px #ffcb6899,inset 0 0 11px #c98d4390,0 0 24px #ff9a3232}
+.ring-inner{inset:17px 21px;border:1px dashed #ffd47d33;box-shadow:none;animation:spin 90s linear infinite}
+.orbit-stars{position:absolute;inset:0;pointer-events:none;z-index:1;color:#ffe5a1}.orbit-stars span{position:absolute;text-shadow:0 0 10px #ffbe50;animation:flash 2s ease-in-out infinite}.orbit-stars span:nth-child(1){top:2%;left:49%}.orbit-stars span:nth-child(2){top:48%;right:0}.orbit-stars span:nth-child(3){bottom:4%;left:49%}.orbit-stars span:nth-child(4){top:48%;left:0}
+.cosmic-heading{display:flex;align-items:center;gap:8px;font-weight:900;font-size:.67rem;letter-spacing:.08em;color:#ecdbb5;background:#0c1328ed;border:1px solid #b77f47bd;border-radius:20px;padding:5px 12px;z-index:2}
+.round-separator{color:#fbc87b}.battle-label{color:#a9efff}.battle-label.enemy-turn{color:#ffc38f}.battle-label.game-over{color:#e2e7f2}
+.piles-row{width:100%;display:grid;grid-template-columns:minmax(0,1fr) 55px minmax(0,1fr);align-items:center;justify-items:center;gap:2px;flex:1;min-height:0;margin:2px 0 0}
+.pile{border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:0;padding:0}.pile:disabled{opacity:1}.pile strong{font-size:.58rem;letter-spacing:.11em;font-weight:900;text-shadow:0 0 10px #e9b86844;color:#f7d59b}.pile-art{width:clamp(68px,20vw,104px);height:clamp(89px,25vw,127px);border-radius:9px;position:relative;display:flex;align-items:center;justify-content:center;transition:transform .2s ease}.pile:hover .pile-art{transform:translateY(-2px)}
+.pile-back-art{transform:rotate(-5deg);border:2px solid #ffc16b;background:linear-gradient(135deg,#182a47,#070c21 75%);box-shadow:-4px 3px 0 #223553,-8px 5px 0 #0e1d35,-11px 7px 0 #b67c4680,0 0 16px #ffc66d33}
+.pile-back-art::before{content:"";position:absolute;inset:7px;border:1px solid #c89d6370;border-radius:7px}.cosmic-back{display:grid;place-items:center;color:#ffda9c;border:1px solid #ffbf5c80;border-radius:50%;width:75%;height:68%;transform:rotate(-24deg)}.cosmic-back-orbit{font-size:2.1rem;filter:drop-shadow(0 0 10px #ffc46d60)}
+.pile-front-art{transform:rotate(4deg);background:linear-gradient(150deg,#1c2f50,#0b1225);border:2px solid #99bbdf;box-shadow:4px 3px 0 #17243e,8px 5px 0 #50406e55,0 0 15px #8dbeff29;overflow:hidden}.pile-front-art.has-card{border-color:var(--discard-accent,#8bace1);background:#101a2a}.pile-front-art svg{height:100%;width:100%}.pile-front-art .discard-card-name{position:absolute;bottom:2px;left:0;right:0;padding:2px;font-size:.48rem;background:#070d1acb;text-align:center;font-weight:850;color:#f8f6f2}.pile-front-art .discard-art{height:100%;width:100%;display:grid;place-items:center}.empty-discard{font-size:2rem;color:#768cae}
+.count-badge{min-width:36px;display:grid;place-items:center;border:1px solid #aa7a3ed1;color:#ffe3aa;font-size:.75rem;border-radius:8px;background:#151525;padding:2px 7px;box-shadow:0 0 5px #f5bd5130}
+.cycle-mark{align-self:center;display:flex;flex-direction:column;align-items:center;gap:0;color:#f8c377;text-shadow:0 0 8px #ffb24f}.cycle-mark span{font-size:2.9rem;line-height:1;animation:spin 18s linear infinite}.cycle-mark small{font-size:.48rem;letter-spacing:.04em;color:#d9b888;font-weight:850}
+.solar-dock{display:flex;align-items:center;justify-content:center;gap:8px;z-index:2;color:#ffdba2}.sun-button{border:0;background:none;padding:0;width:33px;height:33px;display:grid;place-items:center;opacity:.7}.sun-button.ready{opacity:1;animation:pulse 1.8s infinite;border-radius:50%}.sun-button.used{filter:grayscale(1);opacity:.35}.sun-disc{font-size:1.8rem;text-shadow:0 0 12px #ffb853}.solar-dock>div{display:flex;flex-direction:column;gap:1px}.solar-dock b{font-size:.57rem;letter-spacing:.1em}.solar-dock span:not(.sun-disc){font-size:.49rem;color:#afbed1}
+.reshuffle-notice{position:absolute;z-index:6;top:44%;left:50%;width:90%;max-width:310px;transform:translate(-50%,-50%) scale(.93);background:#1a1732f5;color:#ffe4a2;border:1px solid #f6c567;box-shadow:0 0 25px #ffb23c7f;border-radius:14px;padding:12px;text-align:center;font-size:.82rem;font-weight:800;opacity:0;pointer-events:none}
+.cosmic-circle.reshuffling .reshuffle-notice{animation:notice 1.1s ease-in-out forwards}.cosmic-circle.reshuffling .pile-art{animation:reshuffle 1.1s ease-in-out}.cosmic-circle.reshuffling .cycle-mark span{animation:spin .35s linear infinite}
+@keyframes notice{0%{opacity:0;transform:translate(-50%,-50%) scale(.85)}25%,75%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.05)}}
+@keyframes reshuffle{0%{filter:brightness(1);transform:translateX(0) rotate(0)}40%{filter:brightness(2);transform:translateX(18px) rotate(15deg)}75%{transform:translateX(-9px) rotate(-18deg)}100%{transform:translateX(0) rotate(0)}}
+.status-line{display:flex;align-items:center;gap:8px;padding:8px 12px;background:linear-gradient(95deg,#111b32e8,#0a1024cf);border:1px solid #32466889;border-radius:10px;min-height:38px;box-shadow:inset 0 0 16px #25477a19}.status-dot{height:7px;width:7px;background:#6ce0ff;border-radius:100%;box-shadow:0 0 8px #69cfff}.status-line #message{color:#e1edff;font-size:.69rem;font-weight:650;line-height:1.35}
+.hand-panel{padding:11px 11px 10px;background:linear-gradient(165deg,#0a1429e8,#0b1424ef);border:1px solid #35496b9e;border-radius:17px;box-shadow:0 8px 34px #0004}
+.hand-head{display:flex;justify-content:space-between;align-items:center;gap:8px}.hand-head h2{font-size:.8rem;letter-spacing:.08em;margin:0}.hand-head p{margin:3px 0 0;color:var(--muted);font-size:.64rem}.hand-count{color:var(--gold)}
+.discard-mode-button{padding:8px 10px;color:#ffe0a7;font-size:.65rem;white-space:nowrap;font-weight:800;background:linear-gradient(140deg,#3a2b23,#20253d);border:1px solid #b58d5480;border-radius:9px}.discard-mode-button.active{color:#a6f3ff;border-color:#81dafa}
+.hand{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:end;gap:9px;min-height:196px;padding:15px 1px 7px}
+.game-card{position:relative;display:flex;flex-direction:column;align-items:stretch;justify-content:space-between;min-width:0;width:100%;height:174px;border-radius:12px;padding:5px;border:2px solid var(--accent);color:#f3f7ff;background:linear-gradient(170deg,#1e2f4e,#081022 85%);box-shadow:0 3px 0 #050811,0 7px 14px #0008,inset 0 0 12px color-mix(in srgb,var(--accent) 23%,transparent);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;overflow:visible;isolation:isolate}
+.game-card:before{content:"";position:absolute;inset:2px;border-radius:8px;border:1px solid #ffffff25;pointer-events:none}.game-card .card-kind{display:block;min-height:13px;line-height:1.2;color:var(--accent);font-size:.55rem;font-weight:850;text-transform:uppercase;white-space:nowrap;overflow:hidden;letter-spacing:.035em}
+.card-illustration{display:grid;place-items:center;flex:1;min-height:0;width:100%;border-radius:5px;overflow:hidden;background:radial-gradient(ellipse at 45% 45%,color-mix(in srgb,var(--accent) 18%,transparent),transparent 72%)}.card-illustration svg{height:100%;width:100%;filter:drop-shadow(0 0 5px color-mix(in srgb,var(--accent) 35%,transparent))}
+.card-name{display:grid;place-items:center;min-height:28px;color:#fff;text-shadow:0 1px 2px #0009;font-size:.77rem;font-weight:900;line-height:1.06;text-align:center;letter-spacing:-.017em}
+.card-bottom{font-size:.56rem;line-height:1.2;text-align:center;color:#b9cbe2;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.game-card:hover:not(:disabled){transform:translateY(-6px)}.game-card.selected{z-index:4;transform:translateY(-11px) scale(1.035)!important;border-color:#ffe0a1!important;box-shadow:0 0 0 2px #c88c3b,0 0 15px #ffd78de0,0 0 33px #f1a5429c,0 7px 13px #0008;animation:selectedShine 2.4s ease-in-out infinite}
+.game-card.selected::after{content:"✦";position:absolute;left:-8px;top:-16px;color:#fff0b1;text-shadow:0 0 8px #ffc042,5px 130px 8px #ffd978;font-size:1.1rem;animation:floaty 2s infinite;pointer-events:none}
+@keyframes selectedShine{0%,100%{box-shadow:0 0 0 2px #c88c3b,0 0 15px #ffd78de0,0 0 33px #f1a5429c,0 7px 13px #0008}50%{box-shadow:0 0 0 2px #ffe1a1,0 0 26px #ffdc9bef,0 0 46px #f1a542a8,0 7px 13px #0008}}
+.game-card.discard-selected{transform:translateY(-9px);border-color:#fbe49f!important;box-shadow:0 0 20px #ffcf697f}.game-card.discard-selected:after{content:"✓";position:absolute;right:-3px;top:-12px;background:#ffc45f;color:#17213a;font-size:.78rem;padding:3px 6px;border-radius:50%}
+.hand-actions{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 2px 0;min-height:39px}.action-footnote{color:#8da4c3;font-size:.59rem;text-align:right}
+.button{padding:9px 14px;font-size:.71rem;font-weight:900;border-radius:10px;border:1px solid #53698a}.button.secondary{background:#17233b;color:#e5effc}.button.primary{background:linear-gradient(145deg,#ffe1a0,#c98735);color:#191420;border-color:#ffc966;box-shadow:0 0 17px #d99b3e4a}
+.discard-actions{display:flex;flex-direction:column;gap:8px;margin-top:6px}.discard-top,.discard-buttons{display:flex;align-items:center;justify-content:space-between;gap:8px}.discard-top span{font-size:.69rem;color:#f5d7a1}.text-button{background:none;border:none;color:#92d8ff;font-size:.65rem;text-decoration:underline}.discard-buttons .button{flex:1}
+.footer{text-align:center;padding:4px 8px;color:#7387a5;font-size:.61rem;line-height:1.5}
+.effects-layer{position:fixed;inset:0;z-index:200;pointer-events:none;overflow:hidden}.projectile{position:absolute;z-index:201;font-size:3rem;filter:drop-shadow(0 0 13px #f5b053);pointer-events:none;will-change:transform}.impact-ring{position:absolute;width:60px;height:60px;border:4px solid #ffe3a1;border-radius:50%;box-shadow:0 0 22px #ffa94d;pointer-events:none}
+.toast{position:fixed;left:50%;top:11%;z-index:300;transform:translate(-50%,-18px);min-width:190px;max-width:min(90%,440px);padding:11px 16px;text-align:center;border-radius:12px;background:#18203af5;border:1px solid #ffc36f;color:#ffe5bc;opacity:0;pointer-events:none;box-shadow:0 0 20px #ffc36350;font-size:.79rem;font-weight:850;line-height:1.4}.toast.show{animation:toastFade 2.5s ease-in-out forwards}@keyframes toastFade{0%{opacity:0;transform:translate(-50%,-18px)}15%,80%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,-12px)}}
+.modal{border:1px solid #deae65;border-radius:20px;background:linear-gradient(155deg,#121d36,#080e1e);color:var(--ink);padding:24px;width:min(94vw,480px);max-height:86dvh;overflow:auto;box-shadow:0 20px 85px #000b,0 0 35px #d99b353c}.modal::backdrop{background:#02050dcf;backdrop-filter:blur(6px)}.modal-top{display:flex;justify-content:space-between;align-items:center;gap:10px}.eyebrow{color:#f7cb82;font-size:.66rem;font-weight:850;letter-spacing:.17em}.close-btn{width:33px;height:33px;background:#222d42;border:1px solid #53688a;border-radius:9px}.modal h2{margin:8px 0 10px;font-size:1.45rem;color:#ffe1ae}.modal p{font-size:.84rem;color:#c4d5ef;line-height:1.6}.note{font-size:.74rem!important;color:#9db3d4!important}.rules-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.rules-grid>div{padding:10px;background:#14213b;border-radius:9px;border:1px solid #344865;display:flex;flex-direction:column;gap:5px}.rules-grid b{font-size:.71rem}.rules-grid span{font-size:.68rem;color:#b8c7df;line-height:1.35}.modal-confirm{width:100%;margin-top:13px;padding:12px}.setting-info{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #334460;padding:12px 0;font-size:.78rem}.setting-info span{color:#b6c8df}.setting-info strong{color:#ffdf9f}.star-symbol,.solar-symbol,.end-icon{text-align:center;font-size:3.5rem;filter:drop-shadow(0 0 14px #ffbe7a)}.star-modal h2{text-align:center}.star-modal p{text-align:center}.star-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:17px}.star-actions button{padding:13px 7px;display:flex;flex-direction:column;align-items:center;gap:5px;border-radius:12px;border:1px solid #d5ab66;background:linear-gradient(140deg,#26314b,#101c33);min-height:133px;transition:transform .18s}.star-actions button:hover{transform:translateY(-3px);background:#243252}.star-actions button>span{font-size:1.9rem;color:#fcd48f}.star-actions strong{font-size:.69rem}.star-actions small{font-size:.61rem;color:#bfd1e9;line-height:1.3;text-align:center}.end-modal{text-align:center}
+@media (max-width:560px){
+  .shell{padding:8px 8px max(8px,env(safe-area-inset-bottom));gap:7px}
+  .game-id{gap:7px}.game-id-mark{width:33px;height:33px;font-size:1.25rem}.game-type{font-size:.48rem;letter-spacing:.11em}.game-id h1{font-size:.78rem}.icon-button{width:30px;height:30px;font-size:1.05rem}.top-actions{gap:4px}.mode-pill{font-size:.56rem;padding:6px}
+  .play-field{padding:7px 7px 9px;gap:5px;border-radius:14px}.nameplate{padding:4px 6px;gap:6px}.portrait{height:27px;width:27px;font-size:1rem;border-radius:8px}.name-meta strong{font-size:.61rem}.name-meta span{font-size:.5rem}.planet-score b{font-size:.85rem}.planet-score small{font-size:.45rem}
+  .opponent-hand{height:40px}.enemy-mini-card{height:36px;width:27px;border-width:1.5px;border-radius:5px}.enemy-mini-card:after{font-size:.75rem}
+  .planet-lane{gap:4px}.orbit-slot{border-radius:7px;min-height:59px;padding:2px 1px;gap:0}.planet-art{height:38px}.slot-empty-icon{font-size:1.8rem}.slot-name{font-size:.47rem;white-space:nowrap}.slot-markers{font-size:.61rem}
+  .cosmic-circle{height:clamp(218px,64vw,300px);margin:1px auto 0;padding:11px 10px 8px}.cosmic-heading{font-size:.55rem;padding:4px 9px}.piles-row{grid-template-columns:minmax(0,1fr) 35px minmax(0,1fr);gap:0}.pile-art{width:clamp(65px,21vw,88px);height:clamp(82px,27vw,109px)}.pile strong{font-size:.5rem}.cycle-mark span{font-size:2.05rem}.cycle-mark small{font-size:.37rem}.solar-dock b{font-size:.5rem}.solar-dock span:not(.sun-disc){font-size:.46rem}.sun-button{height:27px;width:28px}.sun-disc{font-size:1.45rem}
+  .status-line{padding:6px 8px;min-height:33px}.status-line #message{font-size:.6rem}
+  .hand-panel{padding:9px 6px 7px;border-radius:12px}.hand-head h2{font-size:.7rem}.hand-head p{font-size:.55rem}.discard-mode-button{padding:7px 6px;font-size:.55rem}.hand{gap:4px;padding:16px 0 6px;min-height:146px}.game-card{height:142px;padding:3px;border-radius:9px;border-width:1.5px}.game-card .card-kind{font-size:.43rem;min-height:11px}.card-name{font-size:.57rem;min-height:23px}.card-bottom{font-size:.46rem}.hand-actions{min-height:34px}.button{padding:8px;font-size:.62rem}.action-footnote{font-size:.52rem}
+  .footer{font-size:.54rem}.modal{padding:18px}.modal h2{font-size:1.3rem}.star-actions button{min-height:118px;padding:11px 5px}.star-actions strong{font-size:.62rem}.star-actions small{font-size:.54rem}
+}
+@media (max-width:359px){.game-id h1{font-size:.7rem}.mode-pill{display:none}.planet-art{height:32px}.orbit-slot{min-height:54px}.cosmic-circle{height:213px}.hand-head p{font-size:.5rem}.game-card{height:128px}.card-name{font-size:.52rem}.card-bottom{font-size:.43rem}.hand{min-height:134px}}
+@media (min-width:680px){.shell{padding:14px 18px;gap:12px}.play-field{padding:16px 22px}.cosmic-circle{height:338px}.opponent-hand{height:60px}.enemy-mini-card{height:55px;width:39px}.orbit-slot{min-height:95px}.planet-art{height:62px}.slot-name{font-size:.67rem}.hand{min-height:233px}.game-card{height:211px}.card-illustration svg{max-height:134px}.card-name{font-size:.92rem}.game-card .card-kind{font-size:.64rem}.hand-panel{padding:17px 20px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+</style>
 </head>
-<body class="antialiased selection:bg-brand-500 selection:text-white overflow-x-hidden">
-
-  <!-- Navbar -->
-  <header class="fixed top-0 left-0 right-0 z-50 glass">
-    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-3 group">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-emerald-400 flex items-center justify-center font-extrabold text-xl text-white shadow-lg shadow-brand-500/30">
-          F
-        </div>
-        <span class="font-extrabold text-2xl tracking-tight text-white">FRANKEL<span class="text-brand-400">.</span></span>
-      </a>
-
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-        <a href="#servicios" class="hover:text-white transition">Servicios</a>
-        <a href="#portafolio" class="hover:text-white transition">Modelos</a>
-        <a href="#planes" class="hover:text-white transition">Planes y Precios</a>
-        <a href="#proceso" class="hover:text-white transition">Cómo Trabajamos</a>
-        <a href="#faq" class="hover:text-white transition">Preguntas</a>
-      </nav>
-
-      <div class="flex items-center gap-3">
-        <a href="#contacto" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold text-sm shadow-lg shadow-brand-600/30 transition">
-          Cotizar Mi Web
-        </a>
+<body>
+  <div class="universe" aria-hidden="true"><div class="stars stars-far"></div><div class="stars stars-near"></div><div class="nebula nebula-a"></div><div class="nebula nebula-b"></div></div>
+  <main class="shell">
+    <header class="top-bar">
+      <div class="game-id">
+        <div class="game-id-mark">✦</div>
+        <div><span class="game-type">DEMO JUGABLE · V0.3</span><h1>BATALLA <em>CÓSMICA</em></h1></div>
       </div>
-    </div>
-  </header>
+      <div class="top-actions"><span class="mode-pill">⚔ 1 VS 1</span><button id="rulesBtn" class="icon-button" type="button" title="Reglas" aria-label="Ver reglas">?</button><button id="settingsBtn" class="icon-button" type="button" title="Configuración" aria-label="Abrir configuración">⚙</button></div>
+    </header>
 
-  <!-- Hero Section -->
-  <section class="relative pt-36 pb-24 md:pt-44 md:pb-32 hero-glow">
-    <div class="max-w-7xl mx-auto px-6 text-center">
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs font-semibold text-brand-400 mb-8 border border-brand-500/30">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        AGENCIA DE DISEÑO Y DESARROLLO WEB
-      </div>
+    <section class="play-field" aria-label="Campo de batalla espacial">
+      <section class="combatant opponent" aria-label="Rival controlado por computadora">
+        <div class="nameplate rival-nameplate"><div class="portrait">☄</div><div class="name-meta"><strong>GUARDIÁN ESTELAR</strong><span>Rival · Bot de práctica</span></div><div class="planet-score"><b id="enemyScore">0/4</b><small>planetas</small></div></div>
+        <div id="enemyHand" class="opponent-hand" aria-label="Cartas ocultas del rival"></div>
+        <div id="enemySlots" class="planet-lane opponent-lane" aria-label="Planetas del rival"></div>
+      </section>
 
-      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight max-w-4xl mx-auto">
-        Creamos páginas web que <span class="bg-gradient-to-r from-brand-400 via-indigo-300 to-emerald-400 bg-clip-text text-transparent">multiplican tus ventas</span>
-      </h1>
-
-      <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-        En <strong>Frankel</strong> diseñamos sitios web modernos, ultrarrápidos y listos para convertir visitantes en clientes reales las 24 horas del día.
-      </p>
-
-      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a href="#planes" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-brand-600 to-indigo-500 hover:from-brand-500 hover:to-indigo-400 text-white font-bold text-base shadow-xl shadow-brand-600/30 transition transform hover:-translate-y-0.5">
-          Ver Planes y Precios →
-        </a>
-        <a href="#portafolio" class="w-full sm:w-auto px-8 py-4 rounded-2xl glass hover:bg-slate-800/80 text-slate-200 font-semibold text-base transition">
-          Explorar Diseños Demo
-        </a>
-      </div>
-
-      <!-- Trust Metrics -->
-      <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto pt-10 border-t border-slate-800/80">
-        <div>
-          <p class="text-3xl sm:text-4xl font-extrabold text-white">100%</p>
-          <p class="text-xs sm:text-sm text-slate-400 mt-1">Adaptable a Celulares</p>
-        </div>
-        <div>
-          <p class="text-3xl sm:text-4xl font-extrabold text-emerald-400">&lt; 1.5s</p>
-          <p class="text-xs sm:text-sm text-slate-400 mt-1">Velocidad de Carga</p>
-        </div>
-        <div>
-          <p class="text-3xl sm:text-4xl font-extrabold text-brand-400">SEO Pro</p>
-          <p class="text-xs sm:text-sm text-slate-400 mt-1">Optimizado para Google</p>
-        </div>
-        <div>
-          <p class="text-3xl sm:text-4xl font-extrabold text-white">24/7</p>
-          <p class="text-xs sm:text-sm text-slate-400 mt-1">Soporte y Acompañamiento</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Services Section -->
-  <section id="servicios" class="py-24 relative">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="text-center max-w-2xl mx-auto mb-16">
-        <span class="text-brand-400 font-bold text-sm uppercase tracking-wider">Nuestras Soluciones</span>
-        <h2 class="text-3xl sm:text-5xl font-extrabold mt-2">Todo lo que tu negocio necesita para brillar en internet</h2>
-        <p class="text-slate-400 mt-4">No solo hacemos páginas bonitas; construimos herramientas digitales enfocadas en retorno de inversión.</p>
-      </div>
-
-      <div class="grid md:grid-cols-3 gap-8">
-        <!-- Service 1 -->
-        <div class="glass rounded-3xl p-8 card-hover">
-          <div class="w-14 h-14 rounded-2xl bg-brand-500/20 border border-brand-500/30 flex items-center justify-center text-2xl mb-6">
-            🚀
-          </div>
-          <h3 class="text-xl font-bold text-white mb-3">Landing Pages de Alta Conversión</h3>
-          <p class="text-slate-400 text-sm leading-relaxed mb-6">
-            Ideales para campañas de publicidad en Instagram, Facebook, TikTok o Google Ads. Diseñadas estratégicamente para captar prospectos y mensajes de WhatsApp.
-          </p>
-          <ul class="space-y-2 text-sm text-slate-300">
-            <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Botón directo a WhatsApp</li>
-            <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Copywriting persuasivo incluido</li>
-            <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Entrega en tiempo récord</li>
-          </ul>
-        </div>
-
-        <!-- Service 2 -->
-        <div class="glass rounded-3xl p-8 card-hover border-brand-500/40 relative">
-          <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-2xl mb-6">
-            🏢
-          </div>
-          <h3 class="text-xl font-bold text-white mb-3">Páginas Web Corporativas</h3>
-          <p class="text-slate-400 text-sm leading-relaxed mb-6">
-            Genera máxima confianza y autoridad para tu empresa, consultorio, agencia o marca personal con múltiples secciones, catálogo de servicios y blog.
-          </p>
-          <ul class="space-y-2 text-sm text-slate-300">
-            <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Hasta 6 secciones personalizadas</li>
-            <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Posicionamiento SEO en Google</li>
-            <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Formularios y Google Maps</li>
-          </ul>
-        </div>
-
-        <!-- Service 3 -->
-        <div class="glass rounded-3xl p-8 card-hover">
-          <div class="w-14 h-14 rounded-2xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-2xl mb-6">
-            🛒
-          </div>
-          <h3 class="text-xl font-bold text-white mb-3">Tiendas Online (E-Commerce)</h3>
-          <p class="text-slate-400 text-sm leading-relaxed mb-6">
-            Vende tus productos en automático 24/7 con catálogo autogestionable, carrito de compras, pasarelas de pago con tarjeta y pedidos por WhatsApp.
-          </p>
-          <ul class="space-y-2 text-sm text-slate-300">
-            <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Pasarela de pagos integrada</li>
-            <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Panel fácil para subir productos</li>
-            <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Certificado de seguridad SSL</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Portfolio / Templates Showcase -->
-  <section id="portafolio" class="py-24 bg-slate-950/60 border-y border-slate-900">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-14">
-        <div>
-          <span class="text-emerald-400 font-bold text-sm uppercase tracking-wider">Catálogo de Rubros</span>
-          <h2 class="text-3xl sm:text-5xl font-extrabold mt-2">Diseños adaptados a tu sector</h2>
-        </div>
-        <p class="text-slate-400 max-w-md mt-4 md:mt-0">
-          Personalizamos cada detalle visual según la identidad de tu negocio para destacar frente a tu competencia.
-        </p>
-      </div>
-
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="group rounded-3xl overflow-hidden glass card-hover p-6 flex flex-col justify-between">
-          <div>
-            <div class="h-44 rounded-2xl bg-gradient-to-br from-amber-500/20 via-orange-600/20 to-slate-900 border border-amber-500/20 p-5 flex flex-col justify-between mb-5">
-              <span class="text-xs font-bold uppercase px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 w-max">Gastronomía</span>
-              <div>
-                <p class="font-bold text-lg text-white">Restaurantes & Cafeterías</p>
-                <p class="text-xs text-slate-300">Menú QR interactivo, reservas de mesas y pedidos delivery.</p>
-              </div>
-            </div>
-          </div>
-          <a href="#contacto" onclick="selectPlan('Web para Restaurante / Gastronomía')" class="text-sm font-semibold text-brand-400 group-hover:text-brand-300 flex items-center justify-between">
-            <span>Solicitar este estilo</span>
-            <span>→</span>
-          </a>
-        </div>
-
-        <div class="group rounded-3xl overflow-hidden glass card-hover p-6 flex flex-col justify-between">
-          <div>
-            <div class="h-44 rounded-2xl bg-gradient-to-br from-cyan-500/20 via-blue-600/20 to-slate-900 border border-cyan-500/20 p-5 flex flex-col justify-between mb-5">
-              <span class="text-xs font-bold uppercase px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 w-max">Salud y Estética</span>
-              <div>
-                <p class="font-bold text-lg text-white">Clínicas, Odontología y Spas</p>
-                <p class="text-xs text-slate-300">Agenda de citas online, galería de resultados y testimonios.</p>
-              </div>
-            </div>
-          </div>
-          <a href="#contacto" onclick="selectPlan('Web para Clínica / Salud')" class="text-sm font-semibold text-brand-400 group-hover:text-brand-300 flex items-center justify-between">
-            <span>Solicitar este estilo</span>
-            <span>→</span>
-          </a>
-        </div>
-
-        <div class="group rounded-3xl overflow-hidden glass card-hover p-6 flex flex-col justify-between">
-          <div>
-            <div class="h-44 rounded-2xl bg-gradient-to-br from-emerald-500/20 via-teal-600/20 to-slate-900 border border-emerald-500/20 p-5 flex flex-col justify-between mb-5">
-              <span class="text-xs font-bold uppercase px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 w-max">Inmobiliaria & Construcción</span>
-              <div>
-                <p class="font-bold text-lg text-white">Bienes Raíces y Arquitectos</p>
-                <p class="text-xs text-slate-300">Catálogo de propiedades con filtros, recorridos y cotizador.</p>
-              </div>
-            </div>
-          </div>
-          <a href="#contacto" onclick="selectPlan('Web Inmobiliaria / Corporativa')" class="text-sm font-semibold text-brand-400 group-hover:text-brand-300 flex items-center justify-between">
-            <span>Solicitar este estilo</span>
-            <span>→</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Pricing Section -->
-  <section id="planes" class="py-24">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="text-brand-400 font-bold text-sm uppercase tracking-wider">Inversión Transparente</span>
-        <h2 class="text-3xl sm:text-5xl font-extrabold mt-2">Elige el plan ideal para tu proyecto</h2>
-        <p class="text-slate-400 mt-4">Todos nuestros planes incluyen diseño adaptable a móviles, certificado de seguridad SSL y botón directo a WhatsApp.</p>
-      </div>
-
-      <div class="grid lg:grid-cols-3 gap-8 items-stretch">
-        <!-- Plan 1 -->
-        <div class="glass rounded-3xl p-8 flex flex-col justify-between card-hover">
-          <div>
-            <h3 class="text-xl font-bold text-white">Plan Impulso</h3>
-            <p class="text-sm text-slate-400 mt-1">Ideal para emprendedores y campañas rápidas</p>
-            <div class="my-6">
-              <span class="text-4xl font-extrabold text-white">$149</span>
-              <span class="text-slate-400 text-sm"> USD / pago único</span>
-            </div>
-            <ul class="space-y-3 text-sm text-slate-300 mb-8">
-              <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Landing Page de 1 página completa</li>
-              <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Diseño 100% adaptable a celular</li>
-              <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Botón flotante de WhatsApp</li>
-              <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Formulario de contacto directo</li>
-              <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Entrega en 3 a 5 días hábiles</li>
-            </ul>
-          </div>
-          <a href="#contacto" onclick="selectPlan('Plan Impulso ($149 USD)')" class="w-full py-3.5 rounded-xl glass hover:bg-slate-800 text-center font-bold text-sm text-white transition">
-            Elegir Plan Impulso
-          </a>
-        </div>
-
-        <!-- Plan 2 (Featured) -->
-        <div class="rounded-3xl p-8 flex flex-col justify-between bg-gradient-to-b from-brand-900/90 to-slate-900 border-2 border-brand-500 shadow-2xl shadow-brand-500/20 relative transform lg:-translate-y-4">
-          <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-brand-500 to-emerald-400 text-xs font-extrabold uppercase text-slate-950">
-            MÁS POPULAR
-          </div>
-          <div>
-            <h3 class="text-xl font-bold text-white">Plan Negocio Pro</h3>
-            <p class="text-sm text-indigo-200 mt-1">La web completa para empresas en crecimiento</p>
-            <div class="my-6">
-              <span class="text-4xl font-extrabold text-white">$299</span>
-              <span class="text-indigo-200 text-sm"> USD / pago único</span>
-            </div>
-            <ul class="space-y-3 text-sm text-slate-200 mb-8">
-              <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Sitio web de hasta 5 secciones</li>
-              <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Optimización SEO para Google</li>
-              <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Galería de productos o proyectos</li>
-              <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Integración con Redes Sociales y Mapa</li>
-              <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Velocidad de carga ultra rápida</li>
-              <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Capacitación y soporte por 30 días</li>
-            </ul>
-          </div>
-          <a href="#contacto" onclick="selectPlan('Plan Negocio Pro ($299 USD)')" class="w-full py-3.5 rounded-xl bg-brand-500 hover:bg-brand-400 text-center font-bold text-sm text-white shadow-lg shadow-brand-500/40 transition">
-            Elegir Plan Negocio Pro
-          </a>
-        </div>
-
-        <!-- Plan 3 -->
-        <div class="glass rounded-3xl p-8 flex flex-col justify-between card-hover">
-          <div>
-            <h3 class="text-xl font-bold text-white">Plan Tienda Online</h3>
-            <p class="text-sm text-slate-400 mt-1">Vende productos físicos o digitales 24/7</p>
-            <div class="my-6">
-              <span class="text-4xl font-extrabold text-white">$499</span>
-              <span class="text-slate-400 text-sm"> USD / pago único</span>
-            </div>
-            <ul class="space-y-3 text-sm text-slate-300 mb-8">
-              <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Tienda E-Commerce completa</li>
-              <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Carrito de compras y pasarela de pago</li>
-              <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Panel autogestionable de inventario</li>
-              <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Pedidos automáticos por WhatsApp</li>
-              <li class="flex items-center gap-2"><span class="text-emerald-400">✔</span> Capacitación completa en video</li>
-            </ul>
-          </div>
-          <a href="#contacto" onclick="selectPlan('Plan Tienda Online ($499 USD)')" class="w-full py-3.5 rounded-xl glass hover:bg-slate-800 text-center font-bold text-sm text-white transition">
-            Elegir Plan Tienda Online
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Process Section -->
-  <section id="proceso" class="py-20 bg-slate-950/60 border-t border-slate-900">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="text-center max-w-2xl mx-auto mb-16">
-        <span class="text-emerald-400 font-bold text-sm uppercase tracking-wider">Simple y Rápido</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold mt-2">Tu página web lista en 4 pasos</h2>
-      </div>
-
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="glass p-6 rounded-2xl">
-          <span class="text-3xl font-extrabold text-brand-400">01</span>
-          <h4 class="text-lg font-bold text-white mt-3">Idea y Estrategia</h4>
-          <p class="text-sm text-slate-400 mt-2">Conversamos sobre tu negocio, tus clientes ideales y el estilo visual que deseas proyectar.</p>
-        </div>
-        <div class="glass p-6 rounded-2xl">
-          <span class="text-3xl font-extrabold text-brand-400">02</span>
-          <h4 class="text-lg font-bold text-white mt-3">Diseño y Estructura</h4>
-          <p class="text-sm text-slate-400 mt-2">Creamos una propuesta visual moderna y persuasiva enfocada en captar la atención.</p>
-        </div>
-        <div class="glass p-6 rounded-2xl">
-          <span class="text-3xl font-extrabold text-brand-400">03</span>
-          <h4 class="text-lg font-bold text-white mt-3">Desarrollo y Optimización</h4>
-          <p class="text-sm text-slate-400 mt-2">Programamos tu web para que cargue al instante en celulares, tablets y computadoras.</p>
-        </div>
-        <div class="glass p-6 rounded-2xl">
-          <span class="text-3xl font-extrabold text-emerald-400">04</span>
-          <h4 class="text-lg font-bold text-white mt-3">Lanzamiento Oficial</h4>
-          <p class="text-sm text-slate-400 mt-2">Publicamos tu web en internet y la dejamos lista para recibir clientes desde el primer día.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ Section -->
-  <section id="faq" class="py-20">
-    <div class="max-w-3xl mx-auto px-6">
-      <h2 class="text-3xl font-extrabold text-center mb-12">Preguntas Frecuentes</h2>
-      <div class="space-y-4">
-        <details class="glass rounded-2xl p-6 group cursor-pointer" open>
-          <summary class="font-bold text-white flex justify-between items-center list-none">
-            <span>¿Cuánto tiempo tardan en entregar mi página web?</span>
-            <span class="text-brand-400 group-open:rotate-45 transition-transform text-xl">+</span>
-          </summary>
-          <p class="text-sm text-slate-400 mt-3 leading-relaxed">
-            Una Landing Page está lista entre 3 y 5 días hábiles. Los sitios corporativos o tiendas online toman entre 7 y 12 días hábiles según la cantidad de contenido.
-          </p>
-        </details>
-
-        <details class="glass rounded-2xl p-6 group cursor-pointer">
-          <summary class="font-bold text-white flex justify-between items-center list-none">
-            <span>¿Necesito tener conocimientos técnicos?</span>
-            <span class="text-brand-400 group-open:rotate-45 transition-transform text-xl">+</span>
-          </summary>
-          <p class="text-sm text-slate-400 mt-3 leading-relaxed">
-            ¡Para nada! En Frankel nos encargamos de absolutamente todo: diseño, textos, configuración de dominio, publicación y soporte.
-          </p>
-        </details>
-
-        <details class="glass rounded-2xl p-6 group cursor-pointer">
-          <summary class="font-bold text-white flex justify-between items-center list-none">
-            <span>¿Cómo se realiza el pago?</span>
-            <span class="text-brand-400 group-open:rotate-45 transition-transform text-xl">+</span>
-          </summary>
-          <p class="text-sm text-slate-400 mt-3 leading-relaxed">
-            Iniciamos tu proyecto con el 50% de adelanto y el 50% restante se abona una vez que revises y apruebes tu página web terminada.
-          </p>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contacto" class="py-24 relative">
-    <div class="max-w-4xl mx-auto px-6">
-      <div class="glass rounded-3xl p-8 sm:p-12 border border-brand-500/30 shadow-2xl">
-        <div class="text-center max-w-xl mx-auto mb-10">
-          <span class="text-brand-400 font-bold text-xs uppercase tracking-wider">Hablemos de tu Proyecto</span>
-          <h2 class="text-3xl sm:text-4xl font-extrabold mt-2">Solicita tu cotización gratuita hoy</h2>
-          <p class="text-slate-400 text-sm mt-2">Completa tus datos y te responderemos de inmediato con una propuesta para tu negocio.</p>
-        </div>
-
-        <form id="contactForm" onsubmit="handleQuoteSubmit(event)" class="space-y-5">
-          <div class="grid sm:grid-cols-2 gap-5">
-            <div>
-              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Tu Nombre</label>
-              <input type="text" id="clientName" required placeholder="Ej. Carlos Mendoza" class="w-full px-4 py-3.5 rounded-xl bg-slate-900/90 border border-slate-700 text-white focus:outline-none focus:border-brand-500" />
-            </div>
-            <div>
-              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Nombre de tu Negocio / Rubro</label>
-              <input type="text" id="businessName" required placeholder="Ej. Clínica Dental Sonrisa" class="w-full px-4 py-3.5 rounded-xl bg-slate-900/90 border border-slate-700 text-white focus:outline-none focus:border-brand-500" />
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Plan o Servicio de Interés</label>
-            <select id="selectedPlan" class="w-full px-4 py-3.5 rounded-xl bg-slate-900/90 border border-slate-700 text-white focus:outline-none focus:border-brand-500">
-              <option value="Plan Impulso ($149 USD)">Plan Impulso - Landing Page ($149 USD)</option>
-              <option value="Plan Negocio Pro ($299 USD)" selected>Plan Negocio Pro - Web Completa ($299 USD)</option>
-              <option value="Plan Tienda Online ($499 USD)">Plan Tienda Online - E-Commerce ($499 USD)</option>
-              <option value="Proyecto a Medida">Proyecto Personalizado a Medida</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Cuéntanos qué necesitas en tu web</label>
-            <textarea id="projectDetails" rows="3" placeholder="Quiero mostrar mis servicios, recibir mensajes al WhatsApp y aparecer en Google..." class="w-full px-4 py-3.5 rounded-xl bg-slate-900/90 border border-slate-700 text-white focus:outline-none focus:border-brand-500"></textarea>
-          </div>
-
-          <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-brand-600 to-emerald-500 hover:from-brand-500 hover:to-emerald-400 text-white font-bold text-base shadow-xl shadow-brand-600/30 transition">
-            Enviar Solicitud de Proyecto →
+      <section class="cosmic-circle" aria-label="Mazo central y descarte">
+        <div class="cosmic-halo"></div><div class="orbit-ring ring-outer"></div><div class="orbit-ring ring-inner"></div>
+        <div class="orbit-stars" aria-hidden="true"><span>✦</span><span>✧</span><span>✦</span><span>✧</span></div>
+        <div class="cosmic-heading"><span id="roundCount">RONDA 1</span><span class="round-separator">✧</span><span id="turnBadge" class="battle-label">TU TURNO</span></div>
+        <div class="piles-row">
+          <button class="pile draw-pile" id="drawPile" type="button" aria-label="Mazo de robo. Robas automáticamente al terminar el turno.">
+            <span class="pile-art pile-back-art"><span class="cosmic-back"><span class="cosmic-back-orbit">🪐</span></span></span>
+            <strong>MAZO</strong><span class="count-badge" id="deckCount">0</span>
           </button>
-          <p id="formFeedback" class="text-center text-emerald-400 text-sm font-semibold hidden mt-3"></p>
-        </form>
-      </div>
-    </div>
-  </section>
+          <div class="cycle-mark" aria-hidden="true"><span>⟲</span><small>REMEZCLA</small></div>
+          <button class="pile trash-pile" id="trashPile" type="button" aria-label="Pila de descarte, con la última carta utilizada boca arriba.">
+            <span id="discardTop" class="pile-art pile-front-art"><span class="empty-discard">✧</span></span>
+            <strong>DESCARTE</strong><span class="count-badge" id="trashCount">0</span>
+          </button>
+        </div>
+        <div id="reshuffleNotice" class="reshuffle-notice" role="status" aria-live="polite">↻ El descarte se baraja y vuelve al mazo</div>
+        <div class="solar-dock"><button class="sun-button" id="solarBtn" type="button" title="Pulso solar al tener tres planetas sanos" aria-label="Activar Pulso Solar"><span class="sun-disc">☀</span></button><div><b>NÚCLEO SOLAR</b><span id="solarLabel">Pulso especial</span></div></div>
+      </section>
 
-  <!-- Footer -->
-  <footer class="py-12 border-t border-slate-900 text-center text-sm text-slate-500">
-    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-2">
-        <span class="font-extrabold text-white text-lg">FRANKEL<span class="text-brand-400">.</span></span>
-        <span>— Creación y Venta de Páginas Web Profesionales</span>
-      </div>
-      <p>© 2026 Frankel Web Studio. Todos los derechos reservados.</p>
-    </div>
-  </footer>
+      <section class="combatant player" aria-label="Tu zona de juego">
+        <div class="nameplate my-nameplate"><div class="portrait">✧</div><div class="name-meta"><strong>TÚ · TU SISTEMA SOLAR</strong><span id="sunStatus">Pulso Solar bloqueado</span></div><div class="planet-score"><b id="myScore">0/4</b><small>planetas</small></div></div>
+        <div id="mySlots" class="planet-lane player-lane" aria-label="Tus planetas"></div>
+      </section>
+    </section>
 
+    <div class="status-line"><span class="status-dot"></span><div id="message" role="status" aria-live="polite">Selecciona una carta para jugar.</div></div>
+
+    <section class="hand-panel" aria-label="Tus cartas en mano">
+      <div class="hand-head"><div><h2>TU MANO <span id="handCount" class="hand-count">4/4</span></h2><p id="handHint">Toca una carta y después elige su objetivo.</p></div><button id="discardModeBtn" type="button" class="discard-mode-button">♻ Descartar cartas</button></div>
+      <div id="hand" class="hand" aria-label="Cartas disponibles"></div>
+      <div id="normalActions" class="hand-actions"><button id="cancelBtn" type="button" class="button secondary" disabled>✕ Cancelar selección</button><span class="action-footnote">1 carta jugada o hasta 4 descartadas por turno</span></div>
+      <div id="discardActions" class="discard-actions hidden"><div class="discard-top"><span id="selectedDiscardCount">0 seleccionadas</span><button id="selectAllBtn" type="button" class="text-button">Seleccionar las 4</button></div><div class="discard-buttons"><button id="cancelDiscardBtn" type="button" class="button secondary">Volver</button><button id="confirmDiscardBtn" type="button" class="button primary" disabled>Descartar y robar</button></div></div>
+    </section>
+    <footer class="footer">Prototipo local contra un bot · Sin restricciones de colores · Multijugador online próximamente</footer>
+  </main>
+  <div id="effects" class="effects-layer" aria-hidden="true"></div><div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <dialog id="rulesDialog" class="modal"><div class="modal-top"><span class="eyebrow">REGLAS DE LA DEMO</span><button class="close-btn" type="button" data-close="rulesDialog" aria-label="Cerrar">✕</button></div><h2>¡Forma tu sistema solar!</h2><p>Consigue <b>cuatro planetas diferentes y sanos</b>: oceánico, rocoso, gaseoso y glacial. Todavía <b>NO existen restricciones de colores</b> para atacar, proteger o reparar.</p><div class="rules-grid"><div><b>☄ Meteorito</b><span>Daña un planeta; si ya está dañado, lo destruye.</span></div><div><b>🛡 Campo magnético</b><span>Bloquea un impacto sobre tu planeta.</span></div><div><b>✚ Reparación</b><span>Recupera un planeta dañado.</span></div><div><b>☾ Luna</b><span>Se sacrifica para evitar la destrucción de un planeta dañado.</span></div><div><b>🌠 Estrella fugaz</b><span>Escoge exactamente uno: atacar, proteger o crear el planeta que te falte.</span></div><div><b>☀ Pulso Solar</b><span>Al tener tres planetas sanos puedes usarlo una vez para reparar o proteger.</span></div></div><p><b>En tu turno:</b> juega una carta o descarta entre 1 y 4 cartas. Después robas automáticamente hasta tener 4. El rival juega y vuelve tu turno.</p><p><b>Cuando se acaba el mazo:</b> las cartas del descarte se barajan, pasan boca abajo al mazo y se continúa robando.</p><p class="note">Si creas tu cuarto planeta con una Estrella Fugaz, debes mantener los cuatro sanos hasta el inicio de tu siguiente turno para ganar.</p><button class="button primary modal-confirm" type="button" data-close="rulesDialog">Entendido</button></dialog>
+
+  <dialog id="settingsDialog" class="modal"><div class="modal-top"><span class="eyebrow">AJUSTES</span><button class="close-btn" type="button" data-close="settingsDialog" aria-label="Cerrar">✕</button></div><h2>Nueva partida</h2><p>En esta versión 1 vs 1 dejamos <b>4 cartas por jugador</b>, tal como acordamos. Cada partida es contra un bot local, sin internet.</p><div class="setting-info"><span>👥 Jugadores</span><strong>1 vs 1</strong></div><div class="setting-info"><span>🃏 Cartas por mano</span><strong>4 (máximo)</strong></div><div class="setting-info"><span>🌈 Restricciones de colores</span><strong>Desactivadas</strong></div><input type="radio" name="handSize" value="4" checked hidden /><button id="newGameBtn" type="button" class="button primary modal-confirm">↻ Reiniciar partida</button></dialog>
+
+  <dialog id="starDialog" class="modal star-modal"><div class="modal-top"><span class="eyebrow">CARTA ESPECIAL</span><button class="close-btn" type="button" data-close="starDialog" aria-label="Cerrar">✕</button></div><div class="star-symbol">🌠</div><h2>Estrella fugaz</h2><p>Se transforma en <b>UNA</b> de estas tres acciones. Cuando elijas «Crear planeta», toca el tipo que quieras en tu tablero.</p><div class="star-actions"><button data-star="meteor" type="button"><span>☄</span><strong>ATACAR</strong><small>Como un meteorito: daña a un rival</small></button><button data-star="shield" type="button"><span>⬡</span><strong>PROTEGER</strong><small>Coloca un escudo en tu planeta</small></button><button data-star="planet" type="button"><span>🪐</span><strong>CREAR PLANETA</strong><small>Elige cualquiera que te falte</small></button></div></dialog>
+
+  <dialog id="solarDialog" class="modal"><div class="modal-top"><span class="eyebrow">HABILIDAD ÚNICA</span><button class="close-btn" type="button" data-close="solarDialog" aria-label="Cerrar">✕</button></div><div class="solar-symbol">☀</div><h2>Pulso Solar</h2><p>Una sola vez por partida. Selecciona una acción y toca el planeta donde quieres usarla. Consume tu turno.</p><div class="star-actions"><button data-solar="repair" type="button"><span>✚</span><strong>REPARAR</strong><small>Quita el daño de un planeta</small></button><button data-solar="shield" type="button"><span>⬡</span><strong>PROTEGER</strong><small>Da un escudo a un planeta</small></button></div></dialog>
+
+  <dialog id="endDialog" class="modal end-modal"><div id="endIcon" class="end-icon">🏆</div><h2 id="endTitle">Fin de partida</h2><p id="endDescription"></p><button id="playAgainBtn" type="button" class="button primary modal-confirm">↻ Otra partida</button></dialog>
   <script>
-    function selectPlan(planName) {
-      const select = document.getElementById('selectedPlan');
-      for (let i = 0; i < select.options.length; i++) {
-        if (select.options[i].value === planName) {
-          select.selectedIndex = i;
-          return;
-        }
-      }
-      const customOption = document.createElement('option');
-      customOption.value = planName;
-      customOption.textContent = planName;
-      select.appendChild(customOption);
-      select.value = planName;
-    }
+'use strict';
 
-    function handleQuoteSubmit(e) {
-      e.preventDefault();
-      const name = document.getElementById('clientName').value;
-      const business = document.getElementById('businessName').value;
-      const plan = document.getElementById('selectedPlan').value;
-      const details = document.getElementById('projectDetails').value;
-      const feedback = document.getElementById('formFeedback');
-      feedback.textContent = `¡Gracias, ${name}! Tu solicitud para "${business}" (${plan}) está lista. Conectando con el asesor de Frankel...`;
-      feedback.classList.remove('hidden');
+// Batalla Cósmica V0.3 — demo local 1 vs 1, sin servidor online.
+const TYPES = [
+  {id:'ocean',name:'Oceánico',short:'Océano',color:'#49bdff'},
+  {id:'rock',name:'Rocoso',short:'Rocoso',color:'#fc8569'},
+  {id:'gas',name:'Gaseoso',short:'Gaseoso',color:'#f7be79'},
+  {id:'ice',name:'Glacial',short:'Glacial',color:'#86e5ff'}
+];
+const KINDS={
+  meteor:{name:'Meteorito',heading:'Ataque',hint:'Impacto',color:'#ffc575'},
+  shield:{name:'Campo magnético',heading:'Defensa',hint:'Escudo',color:'#87d5ff'},
+  repair:{name:'Reparación',heading:'Energía',hint:'Curación',color:'#8effc5'},
+  moon:{name:'Luna guardiana',heading:'Satélite',hint:'Vida extra',color:'#dbd6ff'},
+  star:{name:'Estrella fugaz',heading:'Legendaria',hint:'Comodín',color:'#ffe0a4'},
+  comet:{name:'Cometa',heading:'Especial',hint:'Rompe defensa',color:'#ceafff'}
+};
+const $=id=>document.getElementById(id);
+const reduced=()=>window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let game,playIndex=null,targetMode=null,discardMode=false,discardIndexes=new Set(),locked=false,botTimer=null,session=0;
+
+function randomInt(max){return Math.floor(Math.random()*max)}
+function shuffle(list){for(let i=list.length-1;i>0;i--){const j=randomInt(i+1);[list[i],list[j]]=[list[j],list[i]];}return list}
+function makeDeck(){let n=0;const out=[];const add=(kind,type,num)=>{for(let i=0;i<num;i++)out.push({id:++n,kind,type});};
+  TYPES.forEach(t=>add('planet',t.id,7));add('meteor',null,14);add('shield',null,10);add('repair',null,9);add('moon',null,5);add('comet',null,4);add('star',null,2);return shuffle(out);
+}
+function newGame(size=4){if(botTimer)clearTimeout(botTimer);session++;game={size,deck:makeDeck(),discard:[],players:[{board:{},hand:[],solarUsed:false},{board:{},hand:[],solarUsed:false}],current:0,round:1,finished:false,starPending:[false,false]};
+  playIndex=null;targetMode=null;discardMode=false;discardIndexes.clear();locked=false;drawToMax(0);drawToMax(1);hideDialog('endDialog');setMessage('Tu turno: toca una carta para jugar.');render();
+}
+function showReshuffle(){
+  const circle=document.querySelector('.cosmic-circle');
+  if(!circle)return;
+  circle.classList.remove('reshuffling'); void circle.offsetWidth;
+  circle.classList.add('reshuffling');
+  clearTimeout(showReshuffle.timeout);
+  showReshuffle.timeout=setTimeout(()=>circle.classList.remove('reshuffling'),1150);
+  toast('↻ ¡El descarte se barajó y volvió al mazo!');
+}
+function drawToMax(who){
+  const hand=game.players[who].hand;
+  while(hand.length<game.size){
+    if(!game.deck.length){
+      if(!game.discard.length)break;
+      game.deck=shuffle(game.discard.splice(0));
+      // Cartas usadas: boca arriba → mezcla visual → mazo boca abajo.
+      showReshuffle();
     }
-  </script>
+    hand.push(game.deck.pop());
+  }
+}
+function healthy(who){return TYPES.filter(t=>game.players[who].board[t.id] && !game.players[who].board[t.id].damaged).length}
+function setMessage(message){$('message').textContent=message}
+function toast(text){const node=$('toast');node.textContent=text;node.classList.remove('show');void node.offsetWidth;node.classList.add('show')}
+function showDialog(id){const el=$(id);if(!el.open)el.showModal()}
+function hideDialog(id){const el=$(id);if(el.open)el.close()}
+function labelOf(c){if(c.kind==='planet'){const t=TYPES.find(t=>t.id===c.type);return {heading:'Planeta',name:t.name,hint:'Construir',color:t.color}}return KINDS[c.kind]}
+
+// Arte vectorial original para no depender de imágenes ni conexiones externas.
+function spaceSvg(inner,uid){return `<svg viewBox="0 0 100 90" role="presentation" aria-hidden="true"><defs><radialGradient id="sky-${uid}"><stop stop-color="#213d70" stop-opacity=".9"/><stop offset="1" stop-color="#030b1c" stop-opacity=".05"/></radialGradient></defs><ellipse cx="50" cy="46" rx="49" ry="43" fill="url(#sky-${uid})" opacity=".7"/><g fill="#c8dafe" opacity=".75"><circle cx="14" cy="17" r="1"/><circle cx="80" cy="12" r="1.1"/><circle cx="23" cy="68" r=".7"/><circle cx="92" cy="67" r="1"/></g>${inner}</svg>`}
+function planetSvg(type,uid){const gid=`orb-${uid}`;const gradients={
+  ocean:['#a2eeff','#399fe3','#0d467e'],rock:['#ffcb8b','#e66a4c','#8b2f40'],gas:['#ffdfad','#c89359','#755b7a'],ice:['#f0feff','#8ed4ee','#376aab']};const g=gradients[type];
+  let art='';if(type==='ocean')art='<path d="M34 19 51 27 50 37 61 45 52 54 40 50 35 59 23 47 29 36z" fill="#75d5a8" opacity=".9"/><path d="M62 24 72 34 67 47 77 53 60 65 54 59 62 49z" fill="#64bcb0" opacity=".85"/><path d="M24 31Q54 18 75 48" stroke="#d4ffff" opacity=".42" stroke-width="2" fill="none"/>';
+  if(type==='rock')art='<g fill="#6b3345" opacity=".42"><circle cx="38" cy="32" r="9"/><circle cx="64" cy="46" r="12"/><circle cx="45" cy="63" r="5"/></g><path d="M27 46 39 36 51 42 67 29" stroke="#ffd1aa" stroke-width="3" opacity=".3" fill="none"/>';
+  if(type==='gas')art='<g fill="none" stroke-linecap="round"><path d="M22 31Q50 41 78 29" stroke="#b67151" stroke-width="7"/><path d="M21 46Q49 38 80 49" stroke="#f2c798" stroke-width="6"/><path d="M29 62Q50 55 70 65" stroke="#9c6580" stroke-width="6"/></g><ellipse cx="58" cy="43" rx="11" ry="5" fill="#b85f49" opacity=".75"/>';
+  if(type==='ice')art='<g stroke="#d8faff" stroke-width="2" fill="#dbfaff" opacity=".55"><path d="M24 43 40 20 45 44 34 58z"/><path d="M49 68 59 30 74 54 67 67z"/><path d="M36 58 49 43 57 65z"/></g><path d="M25 42 71 30" stroke="#fff" opacity=".55"/>';
+  return spaceSvg(`<defs><radialGradient id="${gid}" cx=".32" cy=".2" r=".9"><stop stop-color="${g[0]}"/><stop offset=".52" stop-color="${g[1]}"/><stop offset="1" stop-color="${g[2]}"/></radialGradient><clipPath id="clip-${uid}"><circle cx="50" cy="45" r="32"/></clipPath></defs><circle cx="50" cy="45" r="34" fill="${g[2]}" opacity=".35"/><circle cx="50" cy="45" r="32" fill="url(#${gid})"/><g clip-path="url(#clip-${uid})">${art}</g><path d="M30 27Q43 15 58 19" stroke="#fff" stroke-width="3" opacity=".35" stroke-linecap="round" fill="none"/>`,uid);
+}
+function artSvg(card,uid){const kind=card.kind;if(kind==='planet')return planetSvg(card.type,uid);
+  if(kind==='meteor')return spaceSvg('<defs><linearGradient id="fire-'+uid+'" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#ff6b31" stop-opacity="0"/><stop offset=".65" stop-color="#f9a43e"/><stop offset="1" stop-color="#fff1ad"/></linearGradient></defs><path d="M5 74Q22 49 39 29Q30 54 53 45Q24 77 12 77z" fill="url(#fire-'+uid+')"/><path d="M24 61 61 23 83 40 62 71 37 76z" fill="#746e77" stroke="#ffe3a6" stroke-width="2"/><path d="M38 60 54 43 71 46" stroke="#c5b5a4" stroke-width="4" fill="none"/><circle cx="55" cy="62" r="6" fill="#4e4c59"/><circle cx="69" cy="39" r="5" fill="#53434b"/>',uid);
+  if(kind==='shield')return spaceSvg('<defs><linearGradient id="shield-'+uid+'"><stop stop-color="#a7ffff" stop-opacity=".45"/><stop offset="1" stop-color="#2d8cd8" stop-opacity=".1"/></linearGradient></defs><circle cx="50" cy="50" r="21" fill="#275c8b"/><path d="M50 8 80 24 83 51Q77 72 50 85 23 71 17 51L20 24z" fill="url(#shield-'+uid+')" stroke="#8cdeff" stroke-width="4"/><path d="M28 44Q52 16 76 45" stroke="#fff" opacity=".55" stroke-width="2" fill="none"/>',uid);
+  if(kind==='repair')return spaceSvg('<circle cx="50" cy="47" r="30" fill="#22655d" opacity=".45"/><circle cx="50" cy="47" r="25" fill="none" stroke="#65d9c1" stroke-width="4" stroke-dasharray="43 12"/><path d="M44 23H56V41H74V53H56V71H44V53H26V41H44z" fill="#baffdc"/><circle cx="50" cy="47" r="33" fill="none" stroke="#62ecbe" opacity=".3" stroke-width="2"/>',uid);
+  if(kind==='moon')return spaceSvg('<ellipse cx="50" cy="46" rx="41" ry="17" fill="none" stroke="#8ab3dd" stroke-width="2" transform="rotate(-20 50 46)" opacity=".4"/><circle cx="53" cy="42" r="30" fill="#c3c5dc"/><g fill="#9297ba"><circle cx="44" cy="33" r="8"/><circle cx="62" cy="52" r="10"/><circle cx="37" cy="54" r="5"/></g><path d="M33 25 Q47 13 62 19" fill="none" stroke="#fff" opacity=".4" stroke-width="3"/>',uid);
+  if(kind==='star')return spaceSvg('<defs><radialGradient id="star-'+uid+'"><stop stop-color="#fff"/><stop offset=".5" stop-color="#ffeeb8"/><stop offset="1" stop-color="#ecb36d" stop-opacity=".2"/></radialGradient></defs><path d="M3 74Q29 42 48 35" stroke="#7be7ff" stroke-width="13" stroke-linecap="round" opacity=".2"/><path d="M7 72 43 42" stroke="#fff5ba" stroke-width="3"/><path d="M59 11 69 36 94 46 68 56 59 81 50 56 24 46 50 36z" fill="url(#star-'+uid+')"/><circle cx="59" cy="46" r="11" fill="#fffdf3"/>',uid);
+  if(kind==='comet')return spaceSvg('<path d="M7 75 52 29" stroke="#8d6aff" stroke-width="22" opacity=".22" stroke-linecap="round"/><path d="M10 74 55 26" stroke="#c5abff" stroke-width="8" opacity=".6" stroke-linecap="round"/><circle cx="62" cy="27" r="16" fill="#cec4e9"/><circle cx="57" cy="21" r="6" fill="#a99bb5"/><path d="M50 14Q60 4 69 15" stroke="#fff" stroke-width="3" opacity=".6" fill="none"/>',uid);
+  return '';
+}
+function slotHtml(who,t){const s=game.players[who].board[t.id];const target=!!(targetMode&&targetMode.who===who&&targetMode.types.includes(t.id));const glyph=s?planetSvg(t.id,`slot-${who}-${t.id}`):'<span class="slot-empty-icon">◌</span>';
+ return `<button class="orbit-slot ${s?'occupied':'empty'} ${target?'target':''}" data-target-player="${who}" data-target-type="${t.id}" aria-label="${who===0?'Tu':'Rival'} planeta ${t.name}: ${!s?'vacío':s.damaged?'dañado':'sano'} ${s?.shield?'con escudo':''} ${s?.moon?'con luna':''}" ${!target?'disabled':''} style="--planet-color:${t.color}"><div class="planet-art">${glyph}</div><span class="slot-name">${t.name}</span>${s?`<span class="slot-markers">${s.shield?'🛡':''}${s.moon?'☾':''}${s.damaged?'⚠':''}</span>${s.damaged?'<span class="slot-damage"></span>':''}`:''}</button>`;
+}
+function cardHtml(card,i){const d=labelOf(card);const selected=discardMode?discardIndexes.has(i):playIndex===i;
+  return `<button class="game-card ${card.kind} ${discardMode&&selected?'discard-selected':!discardMode&&selected?'selected':''}" style="--accent:${d.color}" data-card-index="${i}" aria-pressed="${selected}" aria-label="${d.name}, ${d.hint}${selected?', seleccionada':''}" ${game.current!==0||game.finished||locked?'disabled':''}><span class="card-kind">${d.heading}</span><span class="card-illustration">${artSvg(card,'hand-'+card.id)}</span><span class="card-name">${d.name}</span><span class="card-bottom">${d.hint}</span></button>`;
+}
+function render(){const me=game.players[0],enemy=game.players[1];$('enemySlots').innerHTML=TYPES.map(t=>slotHtml(1,t)).join('');$('mySlots').innerHTML=TYPES.map(t=>slotHtml(0,t)).join('');$('myScore').textContent=`${healthy(0)}/4`;$('enemyScore').textContent=`${healthy(1)}/4`;
+  $('enemyHand').innerHTML=enemy.hand.map((_,i)=>`<span class="enemy-mini-card" style="--r:${(-7+i*5)}deg"></span>`).join('');$('deckCount').textContent=game.deck.length;
+  $('trashCount').textContent=game.discard.length;
+  const discardTop=$('discardTop'),last=game.discard.at(-1);
+  if(last){
+    const d=labelOf(last);
+    discardTop.className='pile-art pile-front-art has-card';
+    discardTop.style.setProperty('--discard-accent',d.color);
+    discardTop.innerHTML=`<span class="discard-art">${artSvg(last,`discard-${last.id}`)}</span><span class="discard-card-name">${d.name}</span>`;
+  }else{
+    discardTop.className='pile-art pile-front-art';
+    discardTop.innerHTML='<span class="empty-discard">✧</span>';
+  }
+$('handCount').textContent=`${me.hand.length}/${game.size}`;$('hand').innerHTML=me.hand.map(cardHtml).join('');$('roundCount').textContent=`RONDA ${game.round}`;
+  $('turnBadge').textContent=game.finished?'FIN DE PARTIDA':game.current===0?'TU TURNO':'TURNO RIVAL';$('turnBadge').className='battle-label '+(game.finished?'game-over':game.current===1?'enemy-turn':'');
+  const ready=healthy(0)>=3&&!me.solarUsed&&game.current===0&&!game.finished&&!locked;const sun=$('solarBtn');sun.className='sun-button'+(ready?' ready':me.solarUsed?' used':'');sun.disabled=!ready||discardMode;const sStatus=me.solarUsed?'Pulso Solar: utilizado':ready?'Pulso Solar: ¡disponible!':'Pulso Solar: consigue 3 planetas sanos';$('sunStatus').textContent=sStatus;
+  $('discardModeBtn').classList.toggle('active',discardMode);$('discardModeBtn').textContent=discardMode?'✕ Salir de descarte':'♻ Descartar varias';$('discardModeBtn').disabled=game.current!==0||game.finished||locked;
+  $('normalActions').classList.toggle('hidden',discardMode);$('discardActions').classList.toggle('hidden',!discardMode);$('cancelBtn').disabled=playIndex===null||locked;
+  $('selectedDiscardCount').textContent=`${discardIndexes.size} ${discardIndexes.size===1?'seleccionada':'seleccionadas'}`;$('confirmDiscardBtn').disabled=!discardIndexes.size||locked;$('confirmDiscardBtn').textContent=discardIndexes.size?`Descartar ${discardIndexes.size} y robar`:'Elige cartas';
+  $('handHint').textContent=discardMode?'Toca de 1 a 4 cartas. Luego confirma para descartarlas y robar nuevas.':targetMode?'Toca un planeta con borde dorado para ejecutar la acción.':'Toca una carta para activarla y elegir un objetivo.';
+}
+function resetPlaySelection(){playIndex=null;targetMode=null;render()}
+function clearDiscard(){discardMode=false;discardIndexes.clear()}
+function playerCanAct(){return game&&game.current===0&&!game.finished&&!locked}
+function chooseCard(index){if(!playerCanAct())return;if(discardMode){if(discardIndexes.has(index))discardIndexes.delete(index);else discardIndexes.add(index);render();return;}
+  if(playIndex===index){resetPlaySelection();setMessage('Selección cancelada.');return;}playIndex=index;const card=game.players[0].hand[index];targetMode=null;
+  if(card.kind==='star'){render();showDialog('starDialog');setMessage('🌠 Estrella fugaz: elige su transformación.');return;}stageTarget(card.kind,card.type);
+}
+function availableTargets(kind,type,actor=0){const own=game.players[actor].board;const other=game.players[1-actor].board;let who=actor,ts=[];
+  if(kind==='planet'){ts=TYPES.filter(t=>!own[t.id]&&(type==='any'||t.id===type)).map(t=>t.id);}
+  else if(kind==='meteor'){who=1-actor;ts=TYPES.filter(t=>!!other[t.id]).map(t=>t.id);}
+  else if(kind==='shield'){ts=TYPES.filter(t=>own[t.id]&&!own[t.id].shield).map(t=>t.id);}
+  else if(kind==='repair'){ts=TYPES.filter(t=>own[t.id]&&own[t.id].damaged).map(t=>t.id);}
+  else if(kind==='moon'){ts=TYPES.filter(t=>own[t.id]&&!own[t.id].moon).map(t=>t.id);}
+  else if(kind==='comet'){who=1-actor;ts=TYPES.filter(t=>other[t.id]&&(other[t.id].shield||other[t.id].moon)).map(t=>t.id);}
+  return {who,types:ts};
+}
+function stageTarget(kind,type,solar=false){const targets=availableTargets(kind,type,0);targetMode={kind,type,who:targets.who,types:targets.types,solar};
+  if(!targets.types.length){
+    targetMode=null;
+    setMessage('No hay objetivo válido para esa acción. Prueba otra carta o descarta.');
+    toast('No tienes un objetivo válido para esa carta');
+  }else{
+    setMessage(kind==='planet'&&type==='any'?'🌠 Elige qué planeta quieres crear: toca una órbita vacía dorada.':'✨ Toca un planeta con borde dorado para usar tu carta.');
+  }
+  render();
+}
+// Las cartas permanentes permanecen físicamente en el tablero. No se reciclan
+// hasta que su planeta, luna o escudo se destruya / consuma.
+function discardPermanent(card){
+  if(card && Number.isInteger(card.id))game.discard.push(card);
+}
+function performEffect(kind,actor,who,type,playedCard=null){
+  const board=game.players[who].board,s=board[type];
+  const name=TYPES.find(t=>t.id===type)?.name||'planeta';
+  let result='';
+  if(kind==='planet'){
+    board[type]={damaged:false,shield:null,moon:null,planetCard:playedCard};
+    result=`🪐 ${name} se une a la órbita`;
+  }
+  if(kind==='meteor'){
+    if(s.shield){
+      discardPermanent(s.shield);s.shield=null;
+      result='🛡 ¡El escudo bloqueó el meteorito!';
+    }else if(s.damaged&&s.moon){
+      discardPermanent(s.moon);s.moon=null;
+      result='🌙 La Luna evitó su destrucción';
+    }else if(s.damaged){
+      discardPermanent(s.planetCard);
+      discardPermanent(s.moon);
+      discardPermanent(s.shield);
+      delete board[type];
+      result='💥 ¡Planeta destruido!';
+    }else{
+      s.damaged=true;
+      result='☄ ¡Impacto! Planeta dañado';
+    }
+  }
+  if(kind==='shield'){
+    s.shield=playedCard||{kind:'solar'};
+    result='🛡 Campo magnético activado';
+  }
+  if(kind==='repair'){
+    s.damaged=false;
+    result='✚ ¡Planeta reparado!';
+  }
+  if(kind==='moon'){
+    s.moon=playedCard;
+    result='🌙 Luna guardiana instalada';
+  }
+  if(kind==='comet'){
+    if(s.shield){
+      discardPermanent(s.shield);s.shield=null;
+      result='☄ Cometa: protección magnética destruida';
+    }else if(s.moon){
+      discardPermanent(s.moon);s.moon=null;
+      result='☄ Cometa: luna expulsada de la órbita';
+    }
+  }
+  toast(result);return result;
+}
+async function animateMove(sourceEl,targetEl,kind){if(reduced()||!sourceEl||!targetEl)return;const a=sourceEl.getBoundingClientRect(),b=targetEl.getBoundingClientRect();const sx=a.left+a.width/2,sy=a.top+a.height/2,dx=b.left+b.width/2-sx,dy=b.top+b.height/2-sy;
+  const el=document.createElement('div');el.className='projectile';el.textContent={meteor:'☄️',shield:'⬡',repair:'✚',planet:'✦',moon:'☾',comet:'☄',solar:'☀'}[kind]||'✦';el.style.left=`${sx}px`;el.style.top=`${sy}px`;$('effects').appendChild(el);
+  const anim=el.animate([{transform:'translate(-50%,-50%) translate(0px,0px) scale(.55)',opacity:.2},{transform:`translate(-50%,-50%) translate(${dx*.6}px,${dy*.6}px) scale(1.13)`,opacity:1},{transform:`translate(-50%,-50%) translate(${dx}px,${dy}px) scale(.9)`,opacity:.95}],{duration:kind==='meteor'?490:390,easing:'cubic-bezier(.16,.58,.21,1)',fill:'forwards'});
+  try{await anim.finished}catch(_){}el.remove();const ring=document.createElement('div');ring.className='impact-ring';ring.style.left=`${sx+dx}px`;ring.style.top=`${sy+dy}px`;$('effects').appendChild(ring);const impact=ring.animate([{opacity:1,transform:'translate(-50%,-50%) scale(.2)'},{opacity:0,transform:'translate(-50%,-50%) scale(2.2)'}],{duration:280,easing:'ease-out'});try{await impact.finished}catch(_){}ring.remove();
+}
+async function onTargetClick(who,type){if(!playerCanAct()||!targetMode||targetMode.who!==who||!targetMode.types.includes(type))return;
+  const localSession=session;locked=true;const kind=targetMode.kind;const target=document.querySelector(`[data-target-player="${who}"][data-target-type="${type}"]`);const source=targetMode.solar?$('solarBtn'):$('hand').querySelector(`[data-card-index="${playIndex}"]`);const isStar=!targetMode.solar&&game.players[0].hand[playIndex]?.kind==='star';const fromSolar=!!targetMode.solar;
+  await animateMove(source,target,kind);if(localSession!==session)return;
+  let playedCard=null;
+  if(fromSolar){game.players[0].solarUsed=true;}
+  else{
+    playedCard=game.players[0].hand.splice(playIndex,1)[0];
+    if(playedCard && !['planet','shield','moon'].includes(kind))game.discard.push(playedCard);
+  }
+  const msg=performEffect(kind,0,who,type,playedCard);clearDiscard();playIndex=null;targetMode=null;endAction(0,{starFourth:isStar&&kind==='planet',message:msg});
+}
+function exitDiscard(){clearDiscard();render();setMessage('Elige una carta para jugar.');}
+function discardSelected(){if(!playerCanAct()||!discardMode||!discardIndexes.size)return;const cards=game.players[0].hand;let removed=[];for(const idx of [...discardIndexes].sort((a,b)=>b-a))removed.push(...cards.splice(idx,1));game.discard.push(...removed);toast(`♻ ${removed.length} ${removed.length===1?'carta descartada':'cartas descartadas'}`);const n=removed.length;clearDiscard();playIndex=null;targetMode=null;endAction(0,{message:`Descartaste ${n} ${n===1?'carta':'cartas'} y robaste nuevas.`});}
+function endAction(actor,{starFourth=false,message=''}={}){
+  drawToMax(actor);if(healthy(actor)===4){if(starFourth){game.starPending[actor]=true;toast('🌠 ¡Defiende tu cuarto planeta hasta tu siguiente turno!');}else{finish(actor);return;}}
+  if(actor===0&&game.starPending[1]){if(healthy(1)===4){finish(1);return;}game.starPending[1]=false;}
+  game.current=1-actor;locked=actor===0;render();
+  if(actor===0){setMessage(message?`${message} · El rival está pensando…`:'El rival está pensando…');const currentSession=session;botTimer=setTimeout(()=>{if(currentSession===session)botMove()},700);}
+  else {game.round++;locked=false;if(game.starPending[0]){if(healthy(0)===4){finish(0);return;}game.starPending[0]=false;}
+    setMessage('¡Tu turno! Puedes jugar una carta o descartar varias.');render();}
+}
+function finish(winner){game.finished=true;game.current=-1;locked=false;game.starPending=[false,false];render();const won=winner===0;$('endIcon').textContent=won?'🏆':'☄';$('endTitle').textContent=won?'¡Sistema solar completado!':'El rival completó su sistema';$('endDescription').textContent=won?'¡Conseguiste cuatro planetas sanos diferentes! Prueba otra mano o juega con más estrategia.':'Tu sistema necesita un nuevo intento. Usa los escudos, lunas y descartes para preparar mejores jugadas.';setMessage(won?'🏆 ¡Victoria!':'☄ El rival ganó esta partida.');showDialog('endDialog');}
+function botMove(){if(game.finished||game.current!==1)return;const bot=game.players[1],choices=[];
+  bot.hand.forEach((c,i)=>{
+    if(c.kind==='star'){
+      for(const type of availableTargets('planet','any',1).types)choices.push({i,kind:'planet',type,who:1,priority:9,star:true});
+      return;
+    }
+    const {who,types}=availableTargets(c.kind,c.type,1);for(const type of types){const s=bot.board[type];let priority=0;
+      if(c.kind==='planet')priority=10;
+      if(c.kind==='repair')priority=9;
+      if(c.kind==='meteor')priority=6+(game.players[0].board[type]?.damaged?2:0);
+      if(c.kind==='shield')priority=4+(s?.damaged?1:0);
+      if(c.kind==='moon')priority=3+(s?.damaged?2:0);
+      if(c.kind==='comet')priority=5;
+      choices.push({i,kind:c.kind,who,type,priority,star:false});
+    }
+  });
+  if(choices.length){choices.sort((a,b)=>b.priority-a.priority||Math.random()-.5);const move=choices[0];const old=bot.hand.splice(move.i,1)[0];
+    if(old && !['planet','shield','moon'].includes(move.kind))game.discard.push(old);
+    const before=healthy(1);
+    const info=performEffect(move.kind,1,move.who,move.type,old);setMessage(`Rival: ${info}`);endAction(1,{starFourth:move.star&&before===3,message:info});}
+  else{const n=Math.min(bot.hand.length,1+randomInt(2));for(let i=0;i<n;i++)game.discard.push(bot.hand.shift());toast(`Rival descartó ${n} ${n===1?'carta':'cartas'}`);endAction(1,{message:'El rival descartó cartas.'});}
+}
+
+$('hand').addEventListener('click',e=>{const card=e.target.closest('[data-card-index]');if(card)chooseCard(Number(card.dataset.cardIndex))});
+$('enemySlots').addEventListener('click',e=>{const slot=e.target.closest('.orbit-slot.target');if(slot)onTargetClick(1,slot.dataset.targetType)});
+$('mySlots').addEventListener('click',e=>{const slot=e.target.closest('.orbit-slot.target');if(slot)onTargetClick(0,slot.dataset.targetType)});
+$('discardModeBtn').addEventListener('click',()=>{if(!playerCanAct())return;if(discardMode){exitDiscard();return;}discardMode=true;discardIndexes.clear();playIndex=null;targetMode=null;render();setMessage('Selecciona todas las cartas que quieras descartar (1 a 4).')});
+$('cancelDiscardBtn').addEventListener('click',exitDiscard);
+$('selectAllBtn').addEventListener('click',()=>{if(!playerCanAct())return;discardIndexes=new Set(game.players[0].hand.map((_,i)=>i));render()});
+$('confirmDiscardBtn').addEventListener('click',discardSelected);
+$('cancelBtn').addEventListener('click',()=>{resetPlaySelection();setMessage('Selección cancelada.')});
+$('drawPile').addEventListener('click',()=>toast('El mazo está barajado. Robas automáticamente después de tu acción.')); 
+$('trashPile').addEventListener('click',()=>toast(`${game.discard.length} cartas usadas o descartadas, boca arriba`));
+$('rulesBtn').addEventListener('click',()=>showDialog('rulesDialog'));
+$('settingsBtn').addEventListener('click',()=>showDialog('settingsDialog'));
+$('newGameBtn').addEventListener('click',()=>{const size=Number(document.querySelector('input[name="handSize"]:checked')?.value||4);hideDialog('settingsDialog');newGame(size)});
+$('playAgainBtn').addEventListener('click',()=>newGame(game.size));
+$('solarBtn').addEventListener('click',()=>{if(!playerCanAct()||healthy(0)<3||game.players[0].solarUsed||discardMode)return;playIndex=null;targetMode=null;render();showDialog('solarDialog')});
+document.querySelectorAll('[data-star]').forEach(btn=>btn.addEventListener('click',()=>{if(playIndex===null)return;const kind=btn.dataset.star;hideDialog('starDialog');stageTarget(kind,kind==='planet'?'any':null)}));
+document.querySelectorAll('[data-solar]').forEach(btn=>btn.addEventListener('click',()=>{if(!playerCanAct())return;hideDialog('solarDialog');const kind=btn.dataset.solar;stageTarget(kind,null,true)}));
+document.querySelectorAll('[data-close]').forEach(btn=>btn.addEventListener('click',()=>{hideDialog(btn.dataset.close)}));
+$('starDialog').addEventListener('close',()=>{if(playIndex!==null&&!targetMode&&!discardMode)resetPlaySelection()});
+// Evita que un doble clic o una animación a medio terminar altere dos turnos.
+newGame(4);
+
+</script>
 </body>
-            </html>
+</html>
