@@ -1,0 +1,78 @@
+/* Batalla Cósmica V0.5 — tablero abierto estilo juego de cartas, sin cuadros separadores */
+:root{--gold:#ffcc72;--line:transparent}
+.universe{background:radial-gradient(ellipse at 50% 45%,#1c315484 0%,#09162b88 43%,transparent 73%),radial-gradient(ellipse at 90% 10%,#50357334,transparent 45%),#02050e}
+.stars{opacity:.94}.nebula-a{background:radial-gradient(ellipse at 4% 84%,#3157b035,transparent 46%),radial-gradient(ellipse at 96% 24%,#66399b28,transparent 42%)}
+.nebula-b{background:radial-gradient(ellipse at 50% 47%,#f89b3c14,transparent 38%)}
+.shell{width:min(100%,820px);gap:3px;padding-top:9px}
+.top-bar{min-height:43px;padding:0 3px}
+.game-id-mark{border:0;background:none;box-shadow:none;width:31px;height:31px;font-size:1.6rem}
+.mode-pill{border:0;background:none;color:#f5c97f;padding:5px 3px;font-size:.63rem}
+.icon-button{background:transparent;border:1px solid #e4ae5c5c;box-shadow:none}
+.play-field{border:0!important;background:transparent!important;box-shadow:none!important;border-radius:0!important;overflow:visible!important;padding:2px 0 1px!important;gap:4px}
+.play-field::before{display:none!important}
+.nameplate,.rival-nameplate,.my-nameplate{background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:3px 7px!important;width:100%;max-width:none}
+.name-meta strong{letter-spacing:.025em;font-size:.84rem}
+.name-meta span{color:#a5b5d0}
+.portrait{border-radius:50%;height:34px;width:34px;box-shadow:0 0 13px #e99f3b40}
+.planet-score b{color:#ffe1a8}
+.opponent-hand{height:53px}
+.enemy-mini-card{box-shadow:0 7px 12px #0008,0 0 9px #ffc36325}
+.planet-lane{gap:2px;align-items:center}
+.orbit-slot,.orbit-slot.empty,.orbit-slot.occupied,.orbit-slot.empty:disabled{border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important;outline:0!important;opacity:1;overflow:visible;min-height:75px;padding:4px 1px;position:relative}
+.orbit-slot.empty::before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);height:39px;width:39px;border-radius:50%;border:1px dashed #678cc13d;background:radial-gradient(circle,#4a71ad10,transparent 75%);pointer-events:none}
+.orbit-slot.empty .slot-empty-icon{color:#7091b4;opacity:.35}
+.orbit-slot .planet-art{height:54px}
+.orbit-slot .planet-art svg{max-width:93px;filter:drop-shadow(0 0 9px color-mix(in srgb,var(--planet-color) 45%,transparent))}
+.slot-name{font-size:.59rem;color:#c0d1ed;font-weight:700;letter-spacing:.01em;text-shadow:0 1px 5px #000}
+.orbit-slot.empty .slot-name{color:#9cacc7}
+.orbit-slot.target{border:0!important;border-radius:0!important;background:none!important;animation:none!important}
+.orbit-slot.target::after{content:"";position:absolute;width:64px;height:64px;top:0;left:50%;transform:translateX(-50%);border-radius:50%;border:2px solid #ffd187;box-shadow:0 0 17px #ffb94f,inset 0 0 17px #ffbd5960;pointer-events:none;animation:orbitTarget 1.4s ease-in-out infinite}
+@keyframes orbitTarget{0%,100%{opacity:.7}50%{opacity:1;box-shadow:0 0 24px #ffb94f,inset 0 0 22px #ffbd5980}}
+.cosmic-circle{height:clamp(235px,56vw,332px);padding:12px 11px 7px;margin:2px auto;max-width:500px}
+.cosmic-halo{background:radial-gradient(ellipse at center,#b97a3914 0%,transparent 72%);box-shadow:none}
+.orbit-ring.ring-outer{border-color:#e8ae5482;border-width:1.5px;box-shadow:0 0 16px #d8983f38,inset 0 0 15px #daa45410}
+.orbit-ring.ring-inner{border-color:#ffd47d12;box-shadow:none}
+.cosmic-heading{border:0;background:transparent;box-shadow:none;padding:3px 6px;font-size:.66rem;text-shadow:0 0 10px #ffb552a8}
+.piles-row{margin:0}
+.pile strong{background:none;color:#c9d8f0;letter-spacing:.08em;font-size:.64rem;text-shadow:0 1px 9px #000}
+.count-badge{border:0;background:none;box-shadow:none;font-weight:900;color:#ffd18b;font-size:.76rem;padding:0;min-width:0}
+.cycle-mark{opacity:.76}.cycle-mark small{color:#caa86e}
+.solar-dock{gap:5px}.solar-dock b{font-size:.56rem}
+.status-line{border:0!important;background:none!important;box-shadow:none!important;border-radius:0!important;min-height:27px;padding:3px 8px;justify-content:center}
+.status-line #message{font-size:.69rem;text-align:center;color:#d9e9ff}
+.status-dot{width:5px;height:5px}
+.hand-panel{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:8px 0 1px!important;overflow:visible}
+.hand-head{padding:0 7px 4px}
+.hand-head h2{font-size:.81rem}.hand-head p{color:#9eb6da}
+.hand{gap:4px;padding:14px 2px 13px;min-height:196px;overflow:visible}
+.game-card{border-width:2px;border-radius:12px;transform:rotate(var(--fan,0deg));transform-origin:50% 100%;box-shadow:0 5px 17px #000a,inset 0 0 13px color-mix(in srgb,var(--accent) 24%,transparent)}
+.game-card:nth-child(1){--fan:-4deg}.game-card:nth-child(2){--fan:-1.5deg}.game-card:nth-child(3){--fan:1.5deg}.game-card:nth-child(4){--fan:4deg}
+.game-card:hover:not(:disabled){transform:translateY(-7px) rotate(0deg);z-index:6}
+.game-card.selected{transform:translateY(-13px) rotate(0deg) scale(1.035)!important}
+.game-card.discard-selected{transform:translateY(-9px) rotate(0deg)!important}
+.hand-actions{padding:0 5px}.action-footnote{opacity:.68}
+.discard-mode-button{border:1px solid #bd995b72;background:#0c1420a8}
+.footer{opacity:.75}
+.welcome-card{border:0;background:transparent;box-shadow:none;backdrop-filter:none}
+.welcome-sigil{filter:drop-shadow(0 0 19px #efb15770)}
+.room-participants>div{background:transparent;border:0;padding:6px 3px}
+@media(max-width:560px){
+.shell{padding:7px 8px max(11px,env(safe-area-inset-bottom));gap:2px}
+.play-field{gap:1px}.nameplate{padding:2px 5px!important}.name-meta strong{font-size:.68rem}
+.opponent-hand{height:41px}.planet-lane{gap:0}
+.orbit-slot,.orbit-slot.empty,.orbit-slot.occupied{min-height:59px;padding:2px 0}
+.orbit-slot.empty::before{top:5px;width:30px;height:30px}
+.orbit-slot .planet-art{height:38px}.slot-name{font-size:.49rem}
+.orbit-slot.target::after{height:49px;width:49px;top:0}
+.cosmic-circle{height:clamp(215px,60vw,286px);padding:9px 5px 4px;margin:3px auto}
+.cosmic-heading{font-size:.58rem}.pile strong{font-size:.58rem}.cycle-mark span{font-size:2.35rem}
+.status-line{padding:4px 3px;min-height:27px}.status-line #message{font-size:.64rem}
+.hand-panel{padding:7px 0 0!important}.hand{min-height:151px;padding:16px 3px 13px;gap:4px}
+.game-card{height:143px;border-width:1.5px}
+.game-card.selected{transform:translateY(-10px) rotate(0deg) scale(1.015)!important}
+.game-card:nth-child(1){--fan:-3deg}.game-card:nth-child(2){--fan:-1deg}.game-card:nth-child(3){--fan:1deg}.game-card:nth-child(4){--fan:3deg}
+.hand-actions{min-height:37px}
+}
+@media(max-width:359px){.cosmic-circle{height:206px}.orbit-slot,.orbit-slot.empty,.orbit-slot.occupied{min-height:54px}.orbit-slot .planet-art{height:34px}.game-card{height:127px}.hand{min-height:137px}}
+@media(min-width:680px){.play-field{padding:4px 12px!important}.orbit-slot .planet-art{height:60px}.orbit-slot.empty::before{top:13px;width:45px;height:45px}.orbit-slot.target::after{width:72px;height:72px}.hand-panel{padding:13px 12px 5px!important}.hand{gap:13px;min-height:235px}.game-card{height:210px}}
+@media(prefers-reduced-motion:reduce){.orbit-slot.target::after{animation:none!important}}
